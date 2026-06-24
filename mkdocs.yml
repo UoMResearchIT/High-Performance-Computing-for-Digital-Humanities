@@ -1,8 +1,8 @@
 site_name: High Performance Computing for Digital Humanities
 site_description: High Performance Computing for Digital Humanities
 site_author: KCL e-Research
-site_url: 'https://kcl-eresearch.github.io/High-Performance-Computing-for-Digital-Humanities'
-repo_url: 'https://github.com/kcl-eresearch/High-Performance-Computing-for-Digital-Humanities'
+site_url: 'https://UoMResearchIT.github.io/High-Performance-Computing-for-Digital-Humanities'
+repo_url: 'https://github.com/UoMResearchIT/High-Performance-Computing-for-Digital-Humanities'
 
 markdown_extensions:
   - admonition
