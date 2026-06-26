@@ -1,6 +1,6 @@
 # High performance computing for Digital Humanities
 
-This workshop is an introduction to using High-Performance Computing (HPC) systems, using the King's College London CREATE HPC as an example.
+This workshop is an introduction to using High-Performance Computing (HPC) systems, using an AWS-hosted HPC instance as an example.
 
 By the end of the workshop you should be able to:
 
@@ -27,20 +27,22 @@ At a very high level, those computers can be divided into the following categori
 
 ![Compute node diagram](images/node_diagram_two.png)
 
-## About CREATE
+## Example HPC systems
 
-King's Computational Research, Engineering and Technology Environment ([CREATE](https://docs.er.kcl.ac.uk/#kings-create)) is a tightly integrated ecosystem of
-research computing infrastructure hosted by [King’s College London](https://www.kcl.ac.uk).
-It consists of:
+National HPC, funded by research councils:
 
-* CREATE Cloud: A private cloud platform to provide flexible and scalable hosting environments, allowing researchers greater control over their own research computing resources using virtual machines
-* CREATE HPC: A high performance compute cluster with CPU and GPU nodes, fast network interconnects and shared storage, for large scale simulations and data analytics
-* CREATE RDS: A very large, highly resilient storage area for longer term curation of research data
-* CREATE TRE: Tightly controlled project areas making use of Cloud and HPC resources to process sensitive datasets (e.g. clinical PIID) complying with NHS Digital audit standards (DSPT)
-* CREATE Web: A self-service web hosting platform for static content (HTML/CSS/JS) and WordPress sites
+* [ARCHER2](https://www.archer2.ac.uk/)
 
-!!! Important
-    For research that has made use of CREATE, please see the [Acknowledging](https://docs.er.kcl.ac.uk/CREATE/acknowledging/) page.
+Regional HPC, run by groups of research institutions:
+
+* [N8 Bede Supercomputer](https://n8cir.org.uk/bede/)
+
+Local HPC, run by individual research institutions:
+
+* University of Manchester Computational Shared Facility ([CSF](https://research-it.manchester.ac.uk/services/the-computational-shared-facility-csf/));
+* King's Computational Research, Engineering and Technology Environment ([CREATE](https://docs.er.kcl.ac.uk/#kings-create)).
+
+
 
 ## Prerequisites
 
@@ -48,8 +50,7 @@ In order to join this training workshop, you must have a terminal application in
 If you use MacOS or Linux, you will have one available by default.
 If you use Windows, you can use PowerShell - some commands will differ from those used on Mac/Linux.
 
-If you are working through these materials on your own, outside a workshop, you will also need to request an account on the CREATE HPC system.
-Information on how to request access can be found in the CREATE [documentation](https://docs.er.kcl.ac.uk/CREATE/requesting_access/)
+If you are working through these materials on your own, outside a workshop, you will need access to a HPC system.
 
 ## References
 
@@ -59,3 +60,4 @@ The material in this course was inspired by / based on the following resources
 * [CREATE documentation](https://docs.er.kcl.ac.uk/)
 * [EPCC Introduction to High-Performance Computing](https://epcced.github.io/hpc-intro/)
 * [A previous iteration of this course developed at Maudsley BRC](https://github.kcl.ac.uk/pages/maudsley-brc-cti/drive-health-hpc-training/)
+* [KCL's iteration of this course](https://kcl-eresearch.github.io/High-Performance-Computing-for-Digital-Humanities/)
