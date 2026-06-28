@@ -29,7 +29,8 @@ You should have been provided with a guest username and password which you can u
 
 The server address of your HPC system will also depend on what your training team have setup. If you are using an existing HPC system this might be an address such as `hpc.create.kcl.ac.uk` or `csf3.itservices.manchester.ac.uk`. If your training team has set up a cloud-hosted instance for you, then this might just be the plain IP address, such as `035.177.011.164`. 
 
-For the purposes of this training material we will use `k1234567` as our example username, and `hpc.university.ac.uk` as our server name. We may also, where appropriate, use `<username>` or `<server>` to indicate where the user or server name should go. In either instance, when following the material below, you should replace these both with the username and server address that your trainers have provided you.
+!!! Info
+    For the purposes of this training material we will use `k1234567` as our example username, and `hpc.university.ac.uk` as our server name. We may, where appropriate, alternatively use `<username>` or `<server>` to indicate where the user or server name should go. In either instance, when following the material below, you should replace these both with the username and server address that your trainers have provided you.
 
 You can connect to the login nodes using the following command (replacing `k1234567` with your guest username, and `hpc.university.ac.uk` with your server name):
 
