@@ -30,19 +30,19 @@ directory also contains example scripts from the exercises for convenience.
         First print the list of the modules before the module has been loaded
 
         ```
-        k1234567@erc-hpc-login2:~$ module list
+        k1234567@login2:~$ module list
         ```
 
         Next load the Python module - N.B. the most recent version you have available may be different to this example answer.
 
         ```
-        k1234567@erc-hpc-login2:~$ module load python/3.8.12-gcc-9.4.0
+        k1234567@login2:~$ module load python/3.8.12-gcc-9.4.0
         ```
 
         List the currently loaded modules:
 
         ```
-        k1234567@erc-hpc-login2:~$ module list
+        k1234567@login2:~$ module list
 
         Currently Loaded Modules:
           1) bzip2/1.0.8-gcc-9.4.0     6) libiconv/1.16-gcc-9.4.0   11) ncurses/6.2-gcc-9.4.0             16) xz/5.2.5-gcc-9.4.0
@@ -57,29 +57,29 @@ directory also contains example scripts from the exercises for convenience.
         Test by printing python version:
 
         ```
-        k1234567@erc-hpc-login2:~$ python -V
+        k1234567@login2:~$ python -V
         Python 3.8.12
         ```
 
         You can also see where the python interpreter resides:
 
         ```
-        k1234567@erc-hpc-login2:~$ which python
+        k1234567@login2:~$ which python
         /software/spackages_prod/apps/linux-ubuntu20.04-zen2/gcc-9.4.0/python-3.8.12-mdneme5mnx2ihlvy6ihbvjatdvnn45l6/bin/python
         ```
 
         Unload the python module using:
 
         ```
-        k1234567@erc-hpc-login2:~$ module rm python/3.8.12-gcc-9.4.0
+        k1234567@login2:~$ module rm python/3.8.12-gcc-9.4.0
         ```
 
         Check the version and location again:
 
         ```
-        k1234567@erc-hpc-login2:~$ python -V
+        k1234567@login2:~$ python -V
         Python 3.8.10
-        k1234567@erc-hpc-login2:~$ which python
+        k1234567@login2:~$ which python
         /usr/bin/python
         ```
 
@@ -106,11 +106,18 @@ directory also contains example scripts from the exercises for convenience.
         k1234567@erc-hpc-login2:~$ module load python/2.7.18-gcc-9.4.0
         ```
 
-        You should see the following message informing you about the module swap:
+        If the HPC module system is **Lmod** you should see the following message informing you about the module swap:
 
         ```
         The following have been reloaded with a version change:
           1) python/3.8.12-gcc-9.4.0 => python/2.7.18-gcc-9.4.0
+        ```
+        
+        If the HPC module system is **Environment modules** you should see the following warning and instructions for carrying out a module swap:
+        ```
+        Loading python/2.7.18-gcc-9.4.0
+          ERROR: Module cannot be loaded due to a conflict.
+             HINT: Might try "module unload python/3.8.12-gcc-9.4.0" first.
         ```
 
 ## Python virtual environments
@@ -128,28 +135,28 @@ directory also contains example scripts from the exercises for convenience.
         Start by loading the python interpreter using:
 
         ```
-        k1234567@erc-hpc-login2:~$ module load python/3.11.6-gcc-13.2.0
+        k1234567@login2:~$ module load python/3.14.6
         ```
 
         Once the module has been loaded create the python virtual environment:
 
         ```
-        k1234567@erc-hpc-login2:~$ python -m venv myvenv
+        k1234567@login2:~$ python -m venv myvenv
         ```
 
         Next activate the environment:
 
         ```
-        k1234567@erc-hpc-login2:~$ source myvenv/bin/activate
-        (myvenv) k1234567@erc-hpc-login2:~$
+        k1234567@login2:~$ source myvenv/bin/activate
+        (myvenv) k1234567@login2:~$
         ```
 
         Use `which` command to print the locations of the python interpreter and pip utility
 
         ```
-        (myvenv) k1234567@erc-hpc-login2:~$ which python
+        (myvenv) k1234567@login2:~$ which python
         /users/k1234567/myvenv/bin/python
-        (myvenv) k1234567@erc-hpc-login2:~$ which pip
+        (myvenv) k1234567@login2:~$ which pip
         /users/k1234567/myvenv/bin/pip
         ```
 
@@ -158,16 +165,16 @@ directory also contains example scripts from the exercises for convenience.
         Next deactivate the virtual environment
 
         ```
-        (myvenv) k1234567@erc-hpc-login2:~$ deactivate
+        (myvenv) k1234567@login2:~$ deactivate
         ```
 
         Check the location of python interpreter and pip using
 
         ```
-        k1234567@erc-hpc-login2:~$ which python
-        /software/spackages_v0_21_prod/apps/linux-ubuntu22.04-zen2/gcc-13.2.0/python-3.11.6-oe7bpykqsieymznu5rprjla46ti6uagh/bin/python
-        k1234567@erc-hpc-login2:~$ which pip
-        /usr/bin/pip
+        k1234567@login2:~$ which python
+        /local/pyenv/versions/3.14.6/bin/python
+        k1234567@login2:~$ which pip
+        /local/pyenv/versions/3.14.6/bin/pip
         ```
 
 1. ### Python virtualenv package installation
@@ -185,14 +192,14 @@ directory also contains example scripts from the exercises for convenience.
         Using the previously created environment activate it
 
         ```
-        k1234567@erc-hpc-login2:~$ source myvenv/bin/activate
-        (myvenv) k1234567@erc-hpc-login2:~$
+        k1234567@login2:~$ source myvenv/bin/activate
+        (myvenv) k1234567@login2:~$
         ```
 
         Next use pip command to install the relevant package
 
         ```
-        (myvenv) k1234567@erc-hpc-login2:~$ pip install pandas
+        (myvenv) k1234567@login2:~$ pip install pandas
         Collecting pandas
           Downloading pandas-1.4.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (11.7 MB)
              ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.7/11.7 MB 14.4 MB/s eta 0:00:00
@@ -216,7 +223,7 @@ directory also contains example scripts from the exercises for convenience.
         You can check if the package has been installed using
 
         ```
-        (myvenv) k1234567@erc-hpc-login2:~$ pip list
+        (myvenv) k1234567@login2:~$ pip list
         Package         Version
         --------------- -------
         numpy           1.22.3
@@ -255,8 +262,7 @@ directory also contains example scripts from the exercises for convenience.
         #!/bin/bash -l
 
         #SBATCH --job-name=test-job1
-        #SBATCH --partition=cpu
-        #SBATCH --reservation=cpu_introduction
+        #SBATCH --partition=simple
         #SBATCH --ntasks=1
         #SBATCH --nodes=1
         #SBATCH --cpus-per-task=1
@@ -269,23 +275,23 @@ directory also contains example scripts from the exercises for convenience.
         Submit the jobs using
 
         ```
-        k1234567@erc-hpc-login2:~$ sbatch test-job1.sh
+        k1234567@login2:~$ sbatch test-job1.sh
         Submitted batch job 56739
         ```
 
         You can check the status of your job(s)
 
         ```
-        k1234567@erc-hpc-login2:~$ squeue --me
+        k1234567@login2:~$ squeue --me
         JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        56739       cpu test-job k1234567  R       0:10      1 erc-hpc-comp001
+        56739    simple test-job k1234567  R       0:10      1 simple-dy-t3xlarge-1
         ```
 
         Analyse the output, which should be located in the `slurm-jobid.out` file (replace `jobid` with the id of your job)
 
         ```
-        k1234567@erc-hpc-login2:~$ cat slurm-56739.out
-        My hostname is erc-hpc-comp001
+        k1234567@login2:~$ cat slurm-56739.out
+        My hostname is simple-dy-t3xlarge-1
         ```
 
         You can check information about completed job using
@@ -315,18 +321,18 @@ directory also contains example scripts from the exercises for convenience.
         Use `srun` command to request an interactive session
 
         ```
-        k1234567@erc-hpc-login2:~$ srun -p cpu --reservation cpu_introduction --mem 4G --pty /bin/bash -l
+        k1234567@login2:~$ srun --partition simple --mem 4G --pty /bin/bash -l
         srun: job 56741 queued and waiting for resources
         srun: job 56741 has been allocated resources
-        k1234567@erc-hpc-comp001:~$
+        k1234567@simple-dy-t3xlarge-1:~$
         ```
 
         Print the hostname of the allocated node and number of cores that we have been allocated
 
         ```
-        k1234567@erc-hpc-comp001:~$ hostname
-        erc-hpc-comp001
-        k1234567@erc-hpc-comp001:~$ nproc
+        k1234567@simple-dy-t3xlarge-1:~$ hostname
+        simple-dy-t3xlarge-1
+        k1234567@simple-dy-t3xlarge-1:~$ nproc
         1
         ```
 
@@ -433,16 +439,16 @@ directory also contains example scripts from the exercises for convenience.
         You will have to copy the script to your local workspace in order to modify it.
 
     ??? example "Sample Answer"
-        Submit the `/datasets/hpc_training/sample-scripts/sample-scripts/bad-script1.sh` job
+        Submit the `/datasets/hpc_training/sample-scripts/bad-script1.sh` job
 
         ```
-        k1234567@erc-hpc-login2:~$ sbatch /datasets/hpc_training/sample-scripts/sample-scripts/bad-script1.sh
+        k1234567@login2:~$ sbatch /datasets/hpc_training/sample-scripts/bad-script1.sh 
         ```
 
         Once the job has finished analyse its output file
 
         ```
-        k1234567@erc-hpc-login2:~$ cat slurm-56749.out
+        k1234567@login2:~$ cat slurm-56749.out
         slurmstepd-erc-hpc-comp001: error: *** JOB 56749 ON erc-hpc-comp001 CANCELLED AT 2022-05-09T14:41:14 DUE TO TIME LIMIT ***
         ```
 
@@ -501,8 +507,7 @@ directory also contains example scripts from the exercises for convenience.
         #!/bin/bash -l
 
         #SBATCH --job-name=test-multicore
-        #SBATCH --partition=cpu
-        #SBATCH --reservation=cpu_introduction
+        #SBATCH --partition=simple
         #SBATCH --ntasks=1
         #SBATCH --cpus-per-task=2
 
@@ -512,14 +517,14 @@ directory also contains example scripts from the exercises for convenience.
         Submit the jobs using:
 
         ```
-        k1234567@erc-hpc-login2:~$ sbatch test-multicore.sh
+        k1234567@login2:~$ sbatch test-multicore.sh
         Submitted batch job 56758
         ```
 
         Analyse the output, which should be located in the `slurm-jobid.out` file (replace `jobid` with the id of your job)
 
         ```
-        k1234567@erc-hpc-login2:~$ cat slurm-56758.out
+        k1234567@login2:~$ cat slurm-56758.out
         I have 2 cpus.
         ```
 
@@ -557,8 +562,7 @@ directory also contains example scripts from the exercises for convenience.
         #!/bin/bash -l
 
         #SBATCH --job-name=test-array
-        #SBATCH --partition=cpu
-        #SBATCH --reservation=cpu_introduction
+        #SBATCH --partition=simple
         #SBATCH --ntasks=1
         #SBATCH --array=1-3
 
@@ -569,14 +573,14 @@ directory also contains example scripts from the exercises for convenience.
         Submit the jobs using
 
         ```
-        k1234567@erc-hpc-login2:~$ sbatch test-array.sh
+        k1234567@login2:~$ sbatch test-array.sh
         Submitted batch job 56759
         ```
 
         Check the status of the job using:
 
         ```
-        k1234567@erc-hpc-login2:~$ squeue --me
+        k1234567@login2:~$ squeue --me
                      JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
                    56759_1       cpu test-arr k1234567  R       0:12      1 erc-hpc-comp001
                    56759_2       cpu test-arr k1234567  R       0:12      1 erc-hpc-comp001
@@ -589,11 +593,11 @@ directory also contains example scripts from the exercises for convenience.
         `X` will be a number corresponding to your tasks range, so you should have 3 separate log files, one for each array task.
 
         ```
-        k1234567@erc-hpc-login2:~$ cat slurm-56759_1.out
+        k1234567@login2:~$ cat slurm-56759_1.out
         My task id is 1
-        k1234567@erc-hpc-login2:~$ cat slurm-56759_2.out
+        k1234567@login2:~$ cat slurm-56759_2.out
         My task id is 2
-        k1234567@erc-hpc-login2:~$ cat slurm-56759_3.out
+        k1234567@login2:~$ cat slurm-56759_3.out
         My task id is 3
         ```
 
@@ -616,8 +620,7 @@ directory also contains example scripts from the exercises for convenience.
         #!/bin/bash -l
 
         #SBATCH --job-name=test-array
-        #SBATCH --partition=cpu
-        #SBATCH --reservation=cpu_introduction
+        #SBATCH --partition=simple
         #SBATCH --ntasks=1
         #SBATCH --array=1-3
 
@@ -664,8 +667,7 @@ directory also contains example scripts from the exercises for convenience.
         #!/bin/bash -l
 
         #SBATCH --job-name=test-singularity
-        #SBATCH --partition=cpu
-        #SBATCH --reservation=cpu_introduction
+        #SBATCH --partition=simple
 
         singularity exec ~/lolcow_latest.sif cowsay "Hello there"
         ```
@@ -673,14 +675,14 @@ directory also contains example scripts from the exercises for convenience.
         Submit the jobs using
 
         ```
-        k1234567@erc-hpc-login2:~$ sbatch test-singularity.sh
+        k1234567@login2:~$ sbatch test-singularity.sh
         Submitted batch job 56748
         ```
 
         Analyse the output, which should be located in the `slurm-jobid.out` file (replace `jobid` with the id of your job)
 
         ```
-        k1234567@erc-hpc-login2:~$ cat slurm-56748.out
+        k1234567@login2:~$ cat slurm-56748.out
          _____________
         < Hello there >
          -------------
@@ -715,11 +717,10 @@ directory also contains example scripts from the exercises for convenience.
             
             There is a `tidyverse` container provided by the `rocker` organisation.
             
-            To pull the container, first start an interactive session as singularity is not available on
-            the login nodes:
+            To pull the container, first start an interactive session:
 
             ```
-            srun --partition cpu --reservation cpu_introduction --pty /bin/bash -l
+            srun --partition simple --pty /bin/bash -l
             ```
 
             We can then pull the container with:
