@@ -11,7 +11,13 @@ by the challenges presented by
 * incompatibilities between different versions and packages
 
 !!! info
-    On CREATE HPC, [spack](https://spack.readthedocs.io/en/latest/) is used to install and manage the software on the platform.
+    There are two main different module systems, **Lmod** and **Environment modules**. You can check which your HPC system uses with the command `modules --version`.
+    
+    For Lmod this will return: `Modules based on Lua: Version 8.x`
+    
+    For Environment Modules this will return: `Modules Release 5.x`
+    
+    There are a few differences in how these two systems operate, we will highlight below where these will matter to you.
 
 ## Environment Modules
 
@@ -24,36 +30,87 @@ In most cases it will alter, or define shell variables such as `PATH`, `LD_LIBRA
 If there are specific dependencies, the modules will define and load them accordingly. For example, if a package relies on
 a specific compiler, the module file will load that compiler for you.
 
+
+### Available Modules
+
 To list available modules on the system use `module avail`. After you run it you should see something similar to the following output:
 
 ```text
 k1234567@erc-hpc-login1:~$ module avail
 
------------------------------------------------------------------------------ /software/spackages_prod/modules/linux-ubuntu20.04-zen2 -----------------------------------------------------------------------------
-   alsa-lib/1.2.3.2-gcc-9.4.0                                                 perl-extutils-config/0.008-gcc-9.4.0
-   amdblis/3.0-gcc-9.4.0-python-3.8.12                                        perl-extutils-helpers/0.026-gcc-9.4.0
-   amdfftw/3.0-gcc-9.4.0-openmpi-4.1.1-python-3.8.12                          perl-extutils-installpaths/0.012-gcc-9.4.0
-   amdlibflame/3.0-gcc-9.4.0-python-3.8.12                                    perl-extutils-makemaker/7.24-gcc-9.4.0
-   anaconda3/2021.05-gcc-9.4.0                                                perl-extutils-pkgconfig/1.16-gcc-9.4.0
-   ant/1.10.7-gcc-9.4.0                                                       perl-file-listing/6.04-gcc-9.4.0
-   autoconf-archive/2019.01.06-gcc-9.4.0                                      perl-font-ttf/1.06-gcc-9.4.0
-   autoconf/2.69-gcc-9.4.0                                                    perl-gd/2.53-gcc-9.4.0-python-3.8.12
-   automake/1.16.3-gcc-9.4.0                                                  perl-html-parser/3.72-gcc-9.4.0
-   bazel/3.7.2-gcc-9.4.0-python-3.8.12                                        perl-html-tagset/3.20-gcc-9.4.0
-   bcftools/1.12-gcc-9.4.0-python-3.8.12                                      perl-http-cookies/6.04-gcc-9.4.0
-   bdftopcf/1.0.5-gcc-9.4.0                                                   perl-http-daemon/6.01-gcc-9.4.0
-   bedtools2/2.23.0-gcc-9.4.0-python-3.8.12                                   perl-http-date/6.02-gcc-9.4.0
-   berkeley-db/18.1.40-gcc-9.4.0                                              perl-http-message/6.13-gcc-9.4.0
-   binutils/2.37-gcc-9.4.0                                                    perl-http-negotiate/6.01-gcc-9.4.0
-   bismark/0.23.0-gcc-9.4.0-python-3.8.12                                     perl-io-html/1.001-gcc-9.4.0
-...
+---------------------------------------------------------- /opt/amazon/modules/modulefiles -----------------------------------------------------------
+libfabric-aws/2.4.0amzn1.0  openmpi/4.1.7  openmpi5/5.0.9amzn1  
+
+----------------------------------------------------------- /usr/share/modules/modulefiles -----------------------------------------------------------
+dot  miniforge3/26.3.2-3(latest)  module-git  module-info  modules  null  python/3.13.14  python/3.14.6(latest)  use.own  
+
+------------------------------------------------------- /opt/intel/mpi/2021.17/etc/modulefiles -------------------------------------------------------
+intelmpi/2021.17  
 ```
 
 !!! info
-    The version numbers you see might differ from the example shown here due to module updates since this training was written.
+    The software modules and version numbers you see will differ from the example shown here because every HPC system is set up for the different needs of their users.
 
 You can run the above command yourself to see the full list.
 Use the arrow keys to scroll up and down the list, and `q` to go back to the command line when you're done.
+
+### Searching and Examining Modules
+
+To find out more information about the module, use `module whatis`
+
+```bash
+module whatis openmpi/4.1.7
+```
+
+You should see information about the module
+
+```text
+openmpi/4.1.7: Sets up Open MPI v4.1.7 in your environment
+```
+
+For more detailed information about the module, use `module show`
+
+```bash
+module show openmpi/4.1.7
+```
+
+You will see technical information on how the module changes the environment
+
+```text
+-------------------------------------------------------------------
+/opt/amazon/modules/modulefiles/openmpi/4.1.7:
+
+module-whatis   {Sets up Open MPI v4.1.7 in your environment}
+prepend-path    PATH /opt/amazon/openmpi/bin
+prepend-path    LD_LIBRARY_PATH /opt/amazon/openmpi/lib
+prepend-path    MANPATH /opt/amazon/openmpi/share/man
+-------------------------------------------------------------------
+```
+
+The `module apropos` command can be used to search whatis information. Use this with your keyword of interest
+
+```bash
+module apropos mpi
+```
+
+This will show you all whatis information which contains that keyword
+
+```bash
+---------------------------------------------------------- /opt/amazon/modules/modulefiles -----------------------------------------------------------
+       openmpi/4.1.7: Sets up Open MPI v4.1.7 in your environment
+ openmpi5/5.0.9amzn1: Sets up Open MPI v5.0.9amzn1 in your environment
+
+------------------------------------------------------- /opt/intel/mpi/2021.17/etc/modulefiles -------------------------------------------------------
+    intelmpi/2021.17: Name: Intel(R) MPI Library
+    intelmpi/2021.17: Version: modulefiles/2021.17
+    intelmpi/2021.17: Description: Intel(R) MPI Library
+    intelmpi/2021.17: URL: https://www.intel.com/content/www/us/en/developer/tools/oneapi/mpi-library.html
+    intelmpi/2021.17: Dependencies: none
+```
+
+
+!!! Important
+    The `spider` command described below is only available for `Lmod` module systems.
 
 If you know the name, or parts of the name of the package that you want to use, you can search for it using `module spider`, e.g.
 
@@ -83,6 +140,8 @@ module spider python
      $ module spider python/3.11.6-gcc-13.2.0
 --------------------------------------------------------------------------------------------------------------------------------------------------
 ```
+
+### Using Modules
 
 To load a module use `module load` command
 
@@ -129,17 +188,6 @@ This will also unload any dependent modules required by the module you are unloa
 !!! tip
     To remove __all__ loaded modules use `module purge`.
 
-To find out more information about the module, use `module whatis`
-
-```bash
-module whatis python/3.11.6-gcc-13.2.0
-```
-
-You should see information about the module
-
-```text
-python/3.11.6-gcc-13.2.0                       : The Python programming language.
-```
 
 ## Exercises - modules
 
@@ -169,8 +217,8 @@ To create a Python virtual environment load the relevant python module and then 
 of the environment you want to create:
 
 ```text
-k1234567@erc-hpc-login1:~$ module load python/3.11.6-gcc-13.2.0
-k1234567@erc-hpc-login1:~$ python3 -m venv myenv
+k1234567@login1:~$ module load python/3.14.6
+k1234567@login1:~$ python3 -m venv myenv
 ```
 
 With this, Python has created the `myenv` directory which now contains the required base files.
@@ -183,8 +231,8 @@ You only need to create the environment once. Once it has been created you do no
 To use the environment you have to activate it first by sourcing the activate script
 
 ```text
-k1234567@erc-hpc-login1:~$ source myenv/bin/activate
-(myenv) k1234567@erc-hpc-login1:~$
+k1234567@login1:~$ source myenv/bin/activate
+(myenv) k1234567@login1:~$
 ```
 
 !!! important
@@ -196,52 +244,55 @@ The name of the venv should be prepended to your prompt indicating that the envi
 * to install packages
 
     ```text
-    (myenv) k1234567@erc-hpc-login2:~$ pip install pytest
+    (myenv) k1234567@login1:~$ pip install pytest
+    ```
+    ```text
     Collecting pytest
-      Downloading pytest-7.3.2-py3-none-any.whl (320 kB)
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 320.9/320.9 kB 12.8 MB/s eta 0:00:00
-    Collecting tomli>=1.0.0
-      Downloading tomli-2.0.1-py3-none-any.whl (12 kB)
-    Collecting packaging
-      Downloading packaging-23.1-py3-none-any.whl (48 kB)
-        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.9/48.9 kB 2.5 MB/s eta 0:00:00
-    Collecting iniconfig
-      Downloading iniconfig-2.0.0-py3-none-any.whl (5.9 kB)
-    Collecting exceptiongroup>=1.0.0rc8
-      Downloading exceptiongroup-1.1.1-py3-none-any.whl (14 kB)
-    Collecting pluggy<2.0,>=0.12
-      Downloading pluggy-1.0.0-py2.py3-none-any.whl (13 kB)
-    Installing collected packages: tomli, pluggy, packaging, iniconfig, exceptiongroup, pytest
-    Successfully installed exceptiongroup-1.1.1 iniconfig-2.0.0 packaging-23.1 pluggy-1.0.0 pytest-7.3.2 tomli-2.0.1
-
-    [notice] A new release of pip available: 22.3.1 -> 23.1.2
-    [notice] To update, run: pip install --upgrade pip
+      Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+    Collecting iniconfig>=1.0.1 (from pytest)
+      Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+    Collecting packaging>=22 (from pytest)
+      Using cached packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+    Collecting pluggy<2,>=1.5 (from pytest)
+      Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+    Collecting pygments>=2.7.2 (from pytest)
+      Downloading pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+    Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+    Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+    Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+    Using cached packaging-26.2-py3-none-any.whl (100 kB)
+    Downloading pygments-2.20.0-py3-none-any.whl (1.2 MB)
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 67.3 MB/s  0:00:00
+    Installing collected packages: pygments, pluggy, packaging, iniconfig, pytest
+    Successfully installed iniconfig-2.3.0 packaging-26.2 pluggy-1.6.0 pygments-2.20.0 pytest-9.1.1
     ```
 
 * or to run python scripts
 
     ```text
-    (myenv) k1234567@erc-hpc-login1:~$ python /datasets/hpc_training/utils/helloworld.py
+    (myenv) k1234567@login1:~$ python /datasets/hpc_training/utils/helloworld.py
+    ```
+    ```text
     Hello World!
     ```
 
 To deactivate the environment use `deactivate` command
 
 ```text
-(myenv) k1234567@erc-hpc-login1:~$ deactivate
+(myenv) k1234567@login1:~$ deactivate
 k1234567@erc-hpc-login1:~$
 ```
 
 You will see that the environment name has disappeared from the shell prompt.
 
 ??? note "Conda virtual environments"
-    Conda is another tool for creating virtual environments.
-    On CREATE, Conda is available via the `anaconda3` module.
+    Conda is another tool for creating python-related virtual environments.
+    Conda is often available via `anaconda3` or `miniforge3` modules.
 
     To use Conda, first load the module:
 
     ```text
-    module load anaconda3/2022.10-gcc-13.2.0
+    module load miniforge3/26.3.2-3
     ```
 
     You can then create a virtual environment and specify the packages you want to install into that environment.
@@ -254,15 +305,15 @@ You will see that the environment name has disappeared from the shell prompt.
     The environment can be activated by running `conda activate` with the name of the env
 
     ```text
-    k1234567@erc-hpc-login1:~$ conda activate python39-env
-    (python39-env) k1234567@erc-hpc-login1:~$
+    k1234567@login1:~$ conda activate python39-env
+    (python39-env) k1234567@login1:~$
     ```
 
     and deactivated by running `conda deactivate`
 
     ```text
-    (python39-env) k1234567@erc-hpc-login1:~$ conda deactivate
-    k1234567@erc-hpc-login1:~$
+    (python39-env) k1234567@login1:~$ conda deactivate
+    k1234567@login1:~$
     ```
 
     As with Python virtualenvs, note that the name of the active Conda environment is prepended to your prompt when the environment is active.
