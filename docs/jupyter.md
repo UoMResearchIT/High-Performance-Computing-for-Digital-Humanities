@@ -19,10 +19,10 @@ Jupyter notebooks use port 8888 by default - if you run a Jupyter notebook local
 
 To connect to a Jupyter notebook (or other service) running on an HPC cluster, we have to set up an SSH tunnel that connects a port on our local machine to the port used by the Jupyter notebook on the HPC node.
 
-We can do this using the `ssh` command with specific options:
+We can do this using the `ssh` command with specific options, e.g.:
 
 ```bash
-ssh -NL 8888:10.211.123.123:12345 k1234567@hpc.create.kcl.ac.uk
+ssh -NL 8888:10.211.123.123:12345 <username>@<server>
 ```
 
 * The `-N` and `-L` options specify that we want to just set up port forwarding and not run any commands on the HPC node.
@@ -37,7 +37,7 @@ We'll create a new Python virtual environment for this,
 but note that you could also install the `jupyterlab` package within an existing virtual environment if you have created a virtual env for a specific project.
 
 ```bash
-module load python/3.11.6-gcc-13.2.0
+module load python/3.14.6
 python -m venv jupyter_env
 ```
 
@@ -57,27 +57,26 @@ We'll go through each section in turn.
 #!/bin/bash -l
 
 #SBATCH --job-name=ops-jupyter
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --mem=2G
 #SBATCH --signal=USR2
 #SBATCH --cpus-per-task=1
 
-module load python/3.11.6-gcc-13.2.0
+module load python/3.14.6
 source jupyter_env/bin/activate
 
 # get unused socket per https://unix.stackexchange.com/a/132524
-readonly IPADDRESS=$(hostname -I | tr ' ' '\n' | grep '10.211.4.')
+readonly IPADDRESS=$(hostname -I | tr ' ' '\n' | grep '10.')
 readonly PORT=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()')
 cat 1>&2 <<END
 1. SSH tunnel from your workstation using the following command:
 
    Linux and MacOS:
-   ssh -NL 8888:${HOSTNAME}:${PORT} ${USER}@hpc.create.kcl.ac.uk
+   ssh -NL 8888:${HOSTNAME}:${PORT} ${USER}@<server>
 
    Windows:
-   ssh -m hmac-sha2-512 -NL 8888:${HOSTNAME}:${PORT} ${USER}@hpc.create.kcl.ac.uk
+   ssh -m hmac-sha2-512 -NL 8888:${HOSTNAME}:${PORT} ${USER}@<server>
 
    and point your web browser to http://localhost:8888/lab?token=<add the token from the jupyter output below>
 
@@ -100,8 +99,7 @@ more memory or CPU cores, you'll need to modify this section. For example, to us
 #!/bin/bash -l
 
 #SBATCH --job-name=jupyter
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --mem=25G
 #SBATCH --signal=USR2
@@ -117,7 +115,7 @@ more memory or CPU cores, you'll need to modify this section. For example, to us
 Next, the Python module is loaded and the virtual environment we just created is activated.
 
 ```text
-module load python/3.11.6-gcc-13.2.0
+module load python/3.14.6
 source jupyter_env/bin/activate
 ```
 
@@ -126,16 +124,16 @@ It then prints information to the SLURM output file which will explain how set u
 
 ```text
 # get unused socket per https://unix.stackexchange.com/a/132524
-readonly IPADDRESS=$(hostname -I | tr ' ' '\n' | grep '10.211.4.')
+readonly IPADDRESS=$(hostname -I | tr ' ' '\n' | grep '10.')
 readonly PORT=$(python -c 'import socket; s=socket.socket(); s.bind(("", 0)); print(s.getsockname()[1]); s.close()')
 cat 1>&2 <<END
 1. SSH tunnel from your workstation using the following command:
 
    Linux and MacOS:
-   ssh -NL 8888:${HOSTNAME}:${PORT} ${USER}@hpc.create.kcl.ac.uk
+   ssh -NL 8888:${HOSTNAME}:${PORT} ${USER}@<server>
 
    Windows:
-   ssh -m hmac-sha2-512 -NL 8888:${HOSTNAME}:${PORT} ${USER}@hpc.create.kcl.ac.uk
+   ssh -m hmac-sha2-512 -NL 8888:${HOSTNAME}:${PORT} ${USER}@<server>
 
    and point your web browser to http://localhost:8888/lab?token=<add the token from the jupyter output below>
 
@@ -157,17 +155,16 @@ Submit the script using `sbatch`, wait for the job to start (use `squeue --me` t
 and check the output file for connection information:
 
 ```bash
-k1234567@erc-hpc-login2:~$ sbatch jupyter.sh
+k1234567@login2:~$ sbatch jupyter.sh
 Submitted batch job 15244802
-k1234567@erc-hpc-login2:~$ cat slurm-15244802.out
+k1234567@login2:~$ cat slurm-15244802.out
 ```
 
 On your laptop or desktop, start a new terminal session and run the ssh command given in your job's output,
-e.g. `ssh -NL 8888:erc-hpc-comp015:53723 k1234567@hpc.create.kcl.ac.uk`.
+e.g. `ssh -NL 8888:10.0.34.155:53723 k1234567@hpc.university.ac.uk`.
 
 !!!tip
-    This will produce a message saying you may need to visit the e-Research Portal to authorise
-    your SSH connection, but then no further output, even if successful. This is expected!
+    This will provide no output, even if successful. This is expected!
 
 Then in your web browser go to [http://localhost:8888/lab?token=yourtokenhere](http://localhost:8888), and you should see the Jupyter Lab interface.
 
