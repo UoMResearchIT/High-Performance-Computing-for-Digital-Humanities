@@ -11,44 +11,45 @@ you have to wait for the job to run.
 
 ![Waiter analogy](images/restaurant_queue_manager.svg)
 
-CREATE is using [SLURM](https://slurm.schedmd.com) scheduler, which stands for Simple Linux Utility for Resource Management.
-SLURM is commonly used by other HPC systems as well.
+Many modern HPC systems use the [SLURM](https://slurm.schedmd.com) scheduler, which stands for Simple Linux Utility for Resource Management. This is the scheduler you will learn to use here.
 You may also encounter other job schedulers such as [PBS](https://www.openpbs.org/).
 These work on similar principles, although the exact commands and terminology will be different.
 
 ## Partitions
 
 You can think of partitions as queues - they reside over specific sets of resources and allow access to particular groups.
-Following the restaurant analogy, think of them as different sections of the restaurant and corresponding queues assigned to them.
 
-The public partitions available on CREATE HPC are:
+As an example, these are the partitions on the [ARCHER2](https://docs.archer2.ac.uk/user-guide/scheduler/#__tabbed_1_1) HPC system:
 
-* `cpu`: Partition for cpu jobs
+* `standard`: Partition for cpu jobs
 * `gpu`: Partition for gpu jobs
-* `long_cpu` and `long_gpu`: Partitions for long running jobs. Requires justification and explicit permission to use
-* `interruptible_cpu` and `interruptible_gpu`: Partitions that use unused capacity on private servers
+* `highmem`: Partition for high memory jobs (512Gb RAM per node)
+* `serial`: Partition for serial only jobs
 
-In addition, specific groups/faculties have their own partitions on CREATE HPC that can only be used by members of those groups.
-The list of CREATE partitions and who can use them can be found in our [documentation](https://docs.er.kcl.ac.uk/CREATE/running_jobs/#identify-your-partition).
-Additional information about the resource constraints can be found [here](https://docs.er.kcl.ac.uk/CREATE/scheduler_policy/).
+The partitions on HPC systems are setup according to the needs of the users of that system, and will likely be different to this example above. Consult the documentation for your HPC system to get more details for these.
 
-You can get the list of partitions that are available to you via `sinfo --summarize` command:
+You can get the list of partitions that are available to you on your HPC system via `sinfo --summarize` command:
 
 ```text
-k1234567@erc-hpc-login1:~$ sinfo --summarize
-PARTITION         AVAIL  TIMELIMIT   NODES(A/I/O/T) NODELIST
-cpu*                 up 2-00:00:00        35/0/0/35 erc-hpc-comp[001-028,183-189]
-gpu                  up 2-00:00:00        13/6/0/19 erc-hpc-comp[030-040],erc-hpc-vm[011-018]
-interruptible_cpu    up 1-00:00:00       20/65/0/85 erc-hpc-comp[041-047,058-109,128-133,135,137,139-151,153-154,157,179-180]
-interruptible_gpu    up 1-00:00:00       24/17/2/43 erc-hpc-comp[048-057,110-127,134,170-178,190-194]
+k1234567@login1:~$ sinfo --summarize
+PARTITION AVAIL  TIMELIMIT   NODES(A/I/O/T) NODELIST
+simple*      up   infinite        0/40/0/40 simple-dy-t3xlarge-[1-40]
+complex      up   infinite        0/40/0/40 complex-dy-t32xlarge-[1-40]
+interact     up   infinite        0/40/0/40 interact-dy-t3medium-[1-40]
 ```
 
 Any additional rows you see in the output of `sinfo` will be private partitions you have access to.
 
 !!! hint
     `NODES(A/I/O/T)` column refers to nodes state in the form `allocated/idle/other/total`.
+    
+!!! info
+    Some slurm systems will use reservations and/or quality of service (qos) settings to fine tune user jobs. Reservations (`--reservation`) are used for controlling access to certain nodes for given users and time periods. Quality of service (`--qos`) settings are used for controlling resource limits and job priority. The lesson below does not go into detail on these. For an example of how QOS is used see the [ARCHER2 documentation](https://docs.archer2.ac.uk/user-guide/scheduler/#__tabbed_2_1).
 
 ## Submitting jobs
+
+!!! important
+    For the rest of the lesson we will use the default partition name `simple`. Replace this in the commands below with the default partition name from your HPC system.
 
 In most cases you will be submitting non-interactive jobs, commonly referred to as batch jobs. For this you will be
 using the [`sbatch`](https://slurm.schedmd.com/sbatch.html) utility.
@@ -83,25 +84,20 @@ sleep 60
 From the login node, submit the job to the scheduler using:
 
 ```bash
-sbatch --partition cpu --reservation cpu_introduction test_job.sh
+sbatch --partition simple test_job.sh
 ```
 
-We are specifying the partition to use (`cpu`), and also the reservation (`cpu_introduction`).
-We have set up a reservation for this workshop to ensure we don't have to wait too long to be allocated resources.
-Outside of an organised workshop, you likely won't have a reservation.
-On CREATE HPC, we can also often get test jobs like these to run more quickly by using the `interruptible_cpu` queue.
-The interruptible queues make use of otherwise unused space on private nodes, but if the owner of the nodes wants to use them, your running jobs may be cancelled.
-It's useful for quick testing, but if you're going to use the interruptible queues for real jobs you need to make sure they can be safely cancelled and not lose progress - this is often done via **checkpointing**.
+We are specifying the partition to use (`simple`).
 
 Once the command is executed you should see something similar to:
 
 ```text
-k1234567@@erc-hpc-login1:~$ sbatch --partition cpu --reservation cpu_introduction test_job.sh
+k1234567@@login1:~$ sbatch --partition simple test_job.sh
 Submitted batch job 56543
 ```
 
 !!! info
-    If you do not define a partition during the job submission the default partition will be used, in this case `cpu`.
+    If you do not define a partition during the job submission the default partition will be used, in this case `simple`.
 
 The job id (`56543`) is a unique identifier assigned to your job and can be used to query the status of the job. We will go through it
 in the [job monitoring](#job-monitoring) section.
@@ -116,24 +112,20 @@ This could be because you want to debug or test something, or the application/pi
 non-interactive execution. To request an interactive job via the scheduler use the [`srun`](https://slurm.schedmd.com/srun.html) utility:
 
 ```bash
-srun --partition cpu --reservation cpu_introduction --pty /bin/bash -l
+srun --partition interact --pty /bin/bash -l
 ```
 
 The request will go through the scheduler and if resources are available you will be placed on
 a compute node, i.e.
 
 ```text
-k1234567@erc-hpc-login1:~$ srun --partition cpu --reservation cpu_introduction --pty /bin/bash -l
+k1234567@login1:~$ srun --partition interact --pty /bin/bash -l
 srun: job 56544 queued and waiting for resources
 srun: job 56544 has been allocated resources
 k1234567@erc-hpc-comp001:~$
 ```
 
 To exit an interactive job, we use the Bash command `exit` - this exits the current shell, so if you're inside an interactive job it will exit that, if you're just logged in to one of the login nodes, it will disconnect your SSH session.
-
-!!! warning
-    At the moment there are no dedicated partitions, or nodes for interactive sessions and those sessions share the resources with
-    all of the other jobs. If there are no free resources available you request will fail.
 
 !!! info "Running applications with Graphical User Interfaces (GUIs)"
 
@@ -161,7 +153,7 @@ Without any arguments, the command will print queue information for all users, h
 to filter the list:
 
 ```text
-k1234567@erc-hpc-login1:~$ squeue --me
+k1234567@login1:~$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
              56544       cpu     bash k1234567  R       6:41      1 erc-hpc-comp001
 ```
@@ -173,6 +165,7 @@ k1234567@erc-hpc-login1:~$ squeue --me
     The most common codes that you might see are:
 
     * `PD`: Pending - Job is awaiting resource allocation.
+    * `CF`: Configuring - Job resources have been allocated but they are not yet ready to use
     * `R`: Running - Job currently has an allocation.
     * `CG`: Completing - Job is in the process of completing. Some processes on some nodes may still be active.
     * `CD`: Completed - Job has terminated all processes on all nodes with an exit code of zero.
@@ -262,7 +255,7 @@ For a full list of options please see [sbatch](https://slurm.schedmd.com/sbatch.
 You can provide those options as arguments to the `sbatch`, or `srun` commands, i.e.
 
 ```bash
-sbatch --job-name test_job --partition cpu --reservation cpu_introduction --ntasks 1 --mem 1G --time 0-0:2 test_job.sh
+sbatch --job-name test_job --partition simple --ntasks 1 --mem 1G --time 0-0:2 test_job.sh
 ```
 
 however that can be time consuming and prone to errors. Luckily you can also define those resource requirements
@@ -273,8 +266,7 @@ will look like:
 #!/bin/bash -l
 
 #SBATCH --job-name=hello-world
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --mem=1G
 #SBATCH -t 0-0:2 # time (D-HH:MM)
@@ -290,8 +282,10 @@ sleep 60
 
 !!! hint
     You can specify SLURM options using two slightly different formats:
-    1. `--partition cpu`
-    1. `--partition=cpu`
+    
+    1. `--partition simple`
+    1. `--partition=simple`
+    
     Here we have have used the first version on the command line and the second inside the submission script,
     but this isn't necessary.
     Either format can be used in either context.
@@ -315,22 +309,20 @@ However, GPUs are not the best option for all tasks.
 GPUs are very bad at things that aren't these types of calculations, and typically have much smaller memory.
 In addition, GPU programming can be complex.
 
-You can request GPUs using the `--gres` option to SLURM.
-In the submission script below, `--gres gpu:1` requests one GPU.
-On CREATE HPC, you also need to use the `gpu` or `interruptible_gpu` partition.
+You can request GPUs using the `--gpus` option to SLURM.
+In the submission script below, `--gpus:1` requests one GPU.
+You will also need to select a partition which provides GPU access, for example `gpuA` on the CSF3.
 The `nvidia-smi` command prints some information about the GPUs allocated to the job.
 
 !!! hint
-    You can request `X` gpus (up to 4) using `--gres gpu:X`
+    You can also use `--gpus-per-node` and `--gpus-per-task` to control GPU resource access in the same manner as CPU resource access is controlled.
 
 ``` bash
 #SBATCH --job-name=gpu-job
-#SBATCH --partition=interruptible_gpu
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=1
+#SBATCH --partition=gpuA
+#SBATCH --gpus=2
 #SBATCH --mem=4G
 #SBATCH -t 0-0:02 # time (D-HH:MM)
-#SBATCH --gres gpu:1
 
 nvidia-smi --id=$CUDA_VISIBLE_DEVICES
 ```
@@ -344,43 +336,35 @@ sbatch test_gpu.sh
 A sample output would be:
 
 ```text
-+-----------------------------------------------------------------------------+
-| NVIDIA-SMI 470.182.03   Driver Version: 470.182.03   CUDA Version: 11.4     |
-|-------------------------------+----------------------+----------------------+
-| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-|                               |                      |               MIG M. |
-|===============================+======================+======================|
-|   0  Tesla K40c          On   | 00000000:08:00.0 Off |                    0 |
-| 23%   32C    P8    23W / 235W |      0MiB / 11441MiB |      0%      Default |
-|                               |                      |                  N/A |
-+-------------------------------+----------------------+----------------------+
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.159.04             Driver Version: 580.159.04     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-SXM4-80GB          On  |   00000000:81:00.0 Off |                    0 |
+| N/A   32C    P0             60W /  400W |       0MiB /  81920MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA A100-SXM4-80GB          On  |   00000000:C1:00.0 Off |                    0 |
+| N/A   25C    P0             55W /  400W |       0MiB /  81920MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
 
-+-----------------------------------------------------------------------------+
-| Processes:                                                                  |
-|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
-|        ID   ID                                                   Usage      |
-|=============================================================================|
-|  No running processes found                                                 |
-+-----------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
 ```
 
-!!! note "Advanced resource requirements"
+!!! warning
+    Older Slurm systems use the `--gres` flag for passing GPU requirements. For example, `--gres=gpu:2` is equivalent to `--gpus=2`.
 
-    In some situations you might want to request specific hardware, such as chipset or fast network interconects.
-    This can be achived with the use of `--constrain` option.
-
-    To request a specific type of GPU `a100` you would use
-
-    ```text
-    #SBATCH --constrain=a100
-    ```
-
-    or to request a specific type of processor/architecture you would use
-
-    ```text
-    #SBATCH --constrain=haswell
-    ```
+    
 
 ## Job log files
 
@@ -391,14 +375,14 @@ These log files are important as they will give you clues about the execution of
 You can modify this to suit your needs by explicitly defining different path
 
 ```bash
-#SBATCH --output=/scratch/users/%u/%j.out
+#SBATCH --output=/scratch/%u/%j.out
 ```
 
 You can also separate the stdout and stderr into separate log files
 
 ```bash
-#SBATCH --output=/scratch/users/%u/%j.out
-#SBATCH --error=/scratch/users/%u/%j.err
+#SBATCH --output=/scratch/%u/%j.out
+#SBATCH --error=/scratch/%u/%j.err
 ```
 
 !!! info
@@ -469,7 +453,7 @@ To run this script, we need to first install the Python packages it uses.
 Let's create a new Python virtual environment to install them.
 
 ```bash
-module load python/3.11.6-gcc-13.2.0
+module load python/3.14.6
 python -m venv top_words_env
 ```
 
@@ -490,8 +474,7 @@ We then run the script, specifying the input text file and number of top words t
 #! /bin/bash -l
 
 #SBATCH --job-name=top_words
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=2G
