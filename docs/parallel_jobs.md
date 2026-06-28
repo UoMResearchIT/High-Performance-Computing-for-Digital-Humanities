@@ -51,9 +51,9 @@ This program is available at `/datasets/hpc_training/utils/omp_hello`.
 We need to create a shell script that requests appropriate resources to run the program:
 
 ```bash
+#!/bin/bash --login
 #SBATCH --job-name=omp_hello
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=2G
@@ -137,17 +137,16 @@ The key steps in this code are:
 To execute the above code on CREATE, we can use `submit_squares.sh`:
 
 ```bash
-#!/bin/bash
+#!/bin/bash --login
 #SBATCH --job-name=squares_numba
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=2G
 #SBATCH -t 0-0:02 # time (D-HH:MM)
 
 # Load any required modules
-module load python/3.9.12-gcc-10.3.0  
+module load python/3.14.6  
 
 # Activate virtual environment
 source numba_env/bin/activate
@@ -200,8 +199,7 @@ A sample array job is given below:
 ```bash
 #!/bin/bash -l
 #SBATCH --job-name=array-sample
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --mem=1G
 #SBATCH -t 0-0:02 # time (D-HH:MM)
@@ -235,8 +233,7 @@ Here's our original submission script, which specifies a single text file as inp
 #! /bin/bash -l
 
 #SBATCH --job-name=top_words
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=2G
@@ -245,7 +242,7 @@ Here's our original submission script, which specifies a single text file as inp
 module load python/3.11.6-gcc-13.2.0
 source top_words_env/bin/activate
 
-python top_words.py paradise-lost.txt 20
+python /datasets/hpc_training/DH-RSE/scripts/top_words.py /datasets/hpc_training/DH-RSE/data/paradise-lost.txt 20
 ```
 
 There are multiple text files we can use as input in the `/datasets/hpc_training/DH-RSE/data/` folder.
@@ -273,22 +270,21 @@ Here's what our updated submission script looks like:
 #! /bin/bash -l
 
 #SBATCH --job-name=top_words
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=2G
 #SBATCH -t 0-0:10 # time (D-HH:MM)
 #SBATCH --array=1-10
 
-module load python/3.11.6-gcc-13.2.0
+module load python/3.14.6
 source top_words_env/bin/activate
 
 input_file=`head input_files.txt -n $SLURM_ARRAY_TASK_ID | tail -n 1`
 
 echo "Analysing "$input_file
 
-python top_words.py $input_file 20
+python /datasets/hpc_training/DH-RSE/scripts/top_words.py $input_file 20
 ```
 
 Submit the array job with:
@@ -320,13 +316,13 @@ For example, given the following submission script:
 ```bash
 #!/bin/bash -l
 #SBATCH --job-name=multinode-test
-#SBATCH --partition=cpu
+#SBATCH --partition=complex
 #SBATCH --nodes=2
 #SBATCH --ntasks=16
 #SBATCH --mem=2G
 #SBATCH -t 0-0:05 # time (D-HH:MM)
 
-module load openmpi/4.1.3-gcc-10.3.0-python3+-chk-version
+module load openmpi5/5.0.9amzn1
 
 mpirun /datasets/hpc_training/utils/mpi_hello
 ```
