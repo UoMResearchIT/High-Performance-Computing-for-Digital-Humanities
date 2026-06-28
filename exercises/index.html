@@ -9,7 +9,7 @@
         <meta name="description" content="High Performance Computing for Digital Humanities">
       
       
-        <meta name="author" content="KCL e-Research">
+        <meta name="author" content="KCL e-Research / UoM Research IT">
       
       
         <link rel="canonical" href="https://UoMResearchIT.github.io/High-Performance-Computing-for-Digital-Humanities/exercises/">
@@ -1185,13 +1185,13 @@ answer it might not mean you have done things incorrectly, just differently.</p>
 <details class="example">
 <summary>Sample answer</summary>
 <p>First print the list of the modules before the module has been loaded</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ module list
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ module list
 </code></pre></div>
 <p>Next load the Python module - N.B. the most recent version you have available may be different to this example answer.</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ module load python/3.8.12-gcc-9.4.0
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ module load python/3.8.12-gcc-9.4.0
 </code></pre></div>
 <p>List the currently loaded modules:</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ module list
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ module list
 
 Currently Loaded Modules:
   1) bzip2/1.0.8-gcc-9.4.0     6) libiconv/1.16-gcc-9.4.0   11) ncurses/6.2-gcc-9.4.0             16) xz/5.2.5-gcc-9.4.0
@@ -1202,20 +1202,20 @@ Currently Loaded Modules:
 </code></pre></div>
 <p>You can see that the python module and its dependencies have been added.</p>
 <p>Test by printing python version:</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ python -V
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ python -V
 Python 3.8.12
 </code></pre></div>
 <p>You can also see where the python interpreter resides:</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ which python
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ which python
 /software/spackages_prod/apps/linux-ubuntu20.04-zen2/gcc-9.4.0/python-3.8.12-mdneme5mnx2ihlvy6ihbvjatdvnn45l6/bin/python
 </code></pre></div>
 <p>Unload the python module using:</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ module rm python/3.8.12-gcc-9.4.0
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ module rm python/3.8.12-gcc-9.4.0
 </code></pre></div>
 <p>Check the version and location again:</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ python -V
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ python -V
 Python 3.8.10
-k1234567@erc-hpc-login2:~$ which python
+k1234567@login2:~$ which python
 /usr/bin/python
 </code></pre></div>
 <p>Now we are using system provided python. Although we said that no software
@@ -1237,10 +1237,15 @@ operating system and cannot be removed/hidden easily.</p>
 <p>Next load python 2.7.18:</p>
 <div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ module load python/2.7.18-gcc-9.4.0
 </code></pre></div>
-<p>You should see the following message informing you about the module swap:</p>
+<p>If the HPC module system is <strong>Lmod</strong> you should see the following message informing you about the module swap:</p>
 <div class="highlight"><pre><span></span><code>The following have been reloaded with a version change:
   1) python/3.8.12-gcc-9.4.0 =&gt; python/2.7.18-gcc-9.4.0
 </code></pre></div>
+<p>If the HPC module system is <strong>Environment modules</strong> you should see the following warning and instructions for carrying out a module swap:
+<div class="highlight"><pre><span></span><code>Loading python/2.7.18-gcc-9.4.0
+  ERROR: Module cannot be loaded due to a conflict.
+     HINT: Might try &quot;module unload python/3.8.12-gcc-9.4.0&quot; first.
+</code></pre></div></p>
 </details>
 </li>
 </ol>
@@ -1258,30 +1263,30 @@ operating system and cannot be removed/hidden easily.</p>
 <details class="example">
 <summary>Sample answer</summary>
 <p>Start by loading the python interpreter using:</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ module load python/3.11.6-gcc-13.2.0
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ module load python/3.14.6
 </code></pre></div>
 <p>Once the module has been loaded create the python virtual environment:</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ python -m venv myvenv
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ python -m venv myvenv
 </code></pre></div>
 <p>Next activate the environment:</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ source myvenv/bin/activate
-(myvenv) k1234567@erc-hpc-login2:~$
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ source myvenv/bin/activate
+(myvenv) k1234567@login2:~$
 </code></pre></div>
 <p>Use <code>which</code> command to print the locations of the python interpreter and pip utility</p>
-<div class="highlight"><pre><span></span><code>(myvenv) k1234567@erc-hpc-login2:~$ which python
+<div class="highlight"><pre><span></span><code>(myvenv) k1234567@login2:~$ which python
 /users/k1234567/myvenv/bin/python
-(myvenv) k1234567@erc-hpc-login2:~$ which pip
+(myvenv) k1234567@login2:~$ which pip
 /users/k1234567/myvenv/bin/pip
 </code></pre></div>
 <p><strong>Note</strong>: The above paths might vary depending on where on the filesystem you have created your virtual environemnt.</p>
 <p>Next deactivate the virtual environment</p>
-<div class="highlight"><pre><span></span><code>(myvenv) k1234567@erc-hpc-login2:~$ deactivate
+<div class="highlight"><pre><span></span><code>(myvenv) k1234567@login2:~$ deactivate
 </code></pre></div>
 <p>Check the location of python interpreter and pip using</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ which python
-/software/spackages_v0_21_prod/apps/linux-ubuntu22.04-zen2/gcc-13.2.0/python-3.11.6-oe7bpykqsieymznu5rprjla46ti6uagh/bin/python
-k1234567@erc-hpc-login2:~$ which pip
-/usr/bin/pip
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ which python
+/local/pyenv/versions/3.14.6/bin/python
+k1234567@login2:~$ which pip
+/local/pyenv/versions/3.14.6/bin/pip
 </code></pre></div>
 </details>
 </li>
@@ -1302,11 +1307,11 @@ k1234567@erc-hpc-login2:~$ which pip
 <details class="example">
 <summary>Sample answer</summary>
 <p>Using the previously created environment activate it</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ source myvenv/bin/activate
-(myvenv) k1234567@erc-hpc-login2:~$
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ source myvenv/bin/activate
+(myvenv) k1234567@login2:~$
 </code></pre></div>
 <p>Next use pip command to install the relevant package</p>
-<div class="highlight"><pre><span></span><code>(myvenv) k1234567@erc-hpc-login2:~$ pip install pandas
+<div class="highlight"><pre><span></span><code>(myvenv) k1234567@login2:~$ pip install pandas
 Collecting pandas
   Downloading pandas-1.4.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (11.7 MB)
      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.7/11.7 MB 14.4 MB/s eta 0:00:00
@@ -1326,7 +1331,7 @@ Successfully installed numpy-1.22.3 pandas-1.4.2 python-dateutil-2.8.2 pytz-2022
 </code></pre></div>
 <p>Additional dependencies that pandas package requires will also be installed.</p>
 <p>You can check if the package has been installed using</p>
-<div class="highlight"><pre><span></span><code>(myvenv) k1234567@erc-hpc-login2:~$ pip list
+<div class="highlight"><pre><span></span><code>(myvenv) k1234567@login2:~$ pip list
 Package         Version
 --------------- -------
 numpy           1.22.3
@@ -1368,8 +1373,7 @@ wheel           0.37.1
 <div class="highlight"><pre><span></span><code>#!/bin/bash -l
 
 #SBATCH --job-name=test-job1
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=1
@@ -1379,17 +1383,17 @@ echo &quot;My hostname is &quot;`hostname`
 sleep 60
 </code></pre></div>
 <p>Submit the jobs using</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ sbatch test-job1.sh
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ sbatch test-job1.sh
 Submitted batch job 56739
 </code></pre></div>
 <p>You can check the status of your job(s)</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ squeue --me
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ squeue --me
 JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-56739       cpu test-job k1234567  R       0:10      1 erc-hpc-comp001
+56739    simple test-job k1234567  R       0:10      1 simple-dy-t3xlarge-1
 </code></pre></div>
 <p>Analyse the output, which should be located in the <code>slurm-jobid.out</code> file (replace <code>jobid</code> with the id of your job)</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ cat slurm-56739.out
-My hostname is erc-hpc-comp001
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ cat slurm-56739.out
+My hostname is simple-dy-t3xlarge-1
 </code></pre></div>
 <p>You can check information about completed job using</p>
 <div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ sacct -j 56739
@@ -1418,15 +1422,15 @@ My hostname is erc-hpc-comp001
 <details class="example">
 <summary>Sample answer</summary>
 <p>Use <code>srun</code> command to request an interactive session</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ srun -p cpu --reservation cpu_introduction --mem 4G --pty /bin/bash -l
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ srun --partition simple --mem 4G --pty /bin/bash -l
 srun: job 56741 queued and waiting for resources
 srun: job 56741 has been allocated resources
-k1234567@erc-hpc-comp001:~$
+k1234567@simple-dy-t3xlarge-1:~$
 </code></pre></div>
 <p>Print the hostname of the allocated node and number of cores that we have been allocated</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-comp001:~$ hostname
-erc-hpc-comp001
-k1234567@erc-hpc-comp001:~$ nproc
+<div class="highlight"><pre><span></span><code>k1234567@simple-dy-t3xlarge-1:~$ hostname
+simple-dy-t3xlarge-1
+k1234567@simple-dy-t3xlarge-1:~$ nproc
 1
 </code></pre></div>
 </details>
@@ -1529,11 +1533,11 @@ Tue May 10 09:32:21 2022
 </details>
 <details class="example">
 <summary>Sample Answer</summary>
-<p>Submit the <code>/datasets/hpc_training/sample-scripts/sample-scripts/bad-script1.sh</code> job</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ sbatch /datasets/hpc_training/sample-scripts/sample-scripts/bad-script1.sh
+<p>Submit the <code>/datasets/hpc_training/sample-scripts/bad-script1.sh</code> job</p>
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ sbatch /datasets/hpc_training/sample-scripts/bad-script1.sh 
 </code></pre></div>
 <p>Once the job has finished analyse its output file</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ cat slurm-56749.out
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ cat slurm-56749.out
 slurmstepd-erc-hpc-comp001: error: *** JOB 56749 ON erc-hpc-comp001 CANCELLED AT 2022-05-09T14:41:14 DUE TO TIME LIMIT ***
 </code></pre></div>
 <p>and the accounting information</p>
@@ -1584,19 +1588,18 @@ Hello World! erc-hpc-comp001
 <div class="highlight"><pre><span></span><code>#!/bin/bash -l
 
 #SBATCH --job-name=test-multicore
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 
 echo &quot;I have &quot;`nproc`&quot; cpus.&quot;
 </code></pre></div>
 <p>Submit the jobs using:</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ sbatch test-multicore.sh
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ sbatch test-multicore.sh
 Submitted batch job 56758
 </code></pre></div>
 <p>Analyse the output, which should be located in the <code>slurm-jobid.out</code> file (replace <code>jobid</code> with the id of your job)</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ cat slurm-56758.out
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ cat slurm-56758.out
 I have 2 cpus.
 </code></pre></div>
 <p>You can check the information about completed job using</p>
@@ -1633,8 +1636,7 @@ I have 2 cpus.
 <div class="highlight"><pre><span></span><code>#!/bin/bash -l
 
 #SBATCH --job-name=test-array
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --array=1-3
 
@@ -1642,11 +1644,11 @@ sleep 60
 echo &quot;My task id is ${SLURM_ARRAY_TASK_ID}&quot;
 </code></pre></div>
 <p>Submit the jobs using</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ sbatch test-array.sh
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ sbatch test-array.sh
 Submitted batch job 56759
 </code></pre></div>
 <p>Check the status of the job using:</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ squeue --me
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
            56759_1       cpu test-arr k1234567  R       0:12      1 erc-hpc-comp001
            56759_2       cpu test-arr k1234567  R       0:12      1 erc-hpc-comp001
@@ -1655,11 +1657,11 @@ Submitted batch job 56759
 <p>You may see separate entries corresponding to each of the tasks in your array job.</p>
 <p>Analyse the output, which should be located in the <code>slurm-jobid_X.out</code> files (replace <code>jobid</code> with the id of your job).
 <code>X</code> will be a number corresponding to your tasks range, so you should have 3 separate log files, one for each array task.</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ cat slurm-56759_1.out
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ cat slurm-56759_1.out
 My task id is 1
-k1234567@erc-hpc-login2:~$ cat slurm-56759_2.out
+k1234567@login2:~$ cat slurm-56759_2.out
 My task id is 2
-k1234567@erc-hpc-login2:~$ cat slurm-56759_3.out
+k1234567@login2:~$ cat slurm-56759_3.out
 My task id is 3
 </code></pre></div>
 </details>
@@ -1685,8 +1687,7 @@ My task id is 3
 <div class="highlight"><pre><span></span><code>#!/bin/bash -l
 
 #SBATCH --job-name=test-array
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 #SBATCH --ntasks=1
 #SBATCH --array=1-3
 
@@ -1731,17 +1732,16 @@ Hello, I&#39;m file 3
 <div class="highlight"><pre><span></span><code>#!/bin/bash -l
 
 #SBATCH --job-name=test-singularity
-#SBATCH --partition=cpu
-#SBATCH --reservation=cpu_introduction
+#SBATCH --partition=simple
 
 singularity exec ~/lolcow_latest.sif cowsay &quot;Hello there&quot;
 </code></pre></div>
 <p>Submit the jobs using</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ sbatch test-singularity.sh
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ sbatch test-singularity.sh
 Submitted batch job 56748
 </code></pre></div>
 <p>Analyse the output, which should be located in the <code>slurm-jobid.out</code> file (replace <code>jobid</code> with the id of your job)</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login2:~$ cat slurm-56748.out
+<div class="highlight"><pre><span></span><code>k1234567@login2:~$ cat slurm-56748.out
  _____________
 &lt; Hello there &gt;
  -------------
@@ -1777,9 +1777,8 @@ Many commonly used pieces of software have been containerized into images that a
 <summary>Sample answer</summary>
 <p>Let's search for a container that provides the <code>tidyverse</code> R packages.</p>
 <p>There is a <code>tidyverse</code> container provided by the <code>rocker</code> organisation.</p>
-<p>To pull the container, first start an interactive session as singularity is not available on
-the login nodes:</p>
-<div class="highlight"><pre><span></span><code>srun --partition cpu --reservation cpu_introduction --pty /bin/bash -l
+<p>To pull the container, first start an interactive session:</p>
+<div class="highlight"><pre><span></span><code>srun --partition simple --pty /bin/bash -l
 </code></pre></div>
 <p>We can then pull the container with:</p>
 <div class="highlight"><pre><span></span><code>singularity<span class="w"> </span>pull<span class="w"> </span>tidyverse.sif<span class="w"> </span>docker://rocker/tidyverse

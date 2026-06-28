@@ -9,7 +9,7 @@
         <meta name="description" content="High Performance Computing for Digital Humanities">
       
       
-        <meta name="author" content="KCL e-Research">
+        <meta name="author" content="KCL e-Research / UoM Research IT">
       
       
         <link rel="canonical" href="https://UoMResearchIT.github.io/High-Performance-Computing-for-Digital-Humanities/using_software/">
@@ -347,6 +347,45 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Environment Modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#searching-and-examining-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Searching and Examining Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -756,6 +795,45 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Environment Modules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#searching-and-examining-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Searching and Examining Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -846,7 +924,10 @@ by the challenges presented by</p>
 </ul>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>On CREATE HPC, <a href="https://spack.readthedocs.io/en/latest/">spack</a> is used to install and manage the software on the platform.</p>
+<p>There are two main different module systems, <strong>Lmod</strong> and <strong>Environment modules</strong>. You can check which your HPC system uses with the command <code>modules --version</code>.</p>
+<p>For Lmod this will return: <code>Modules based on Lua: Version 8.x</code></p>
+<p>For Environment Modules this will return: <code>Modules Release 5.x</code></p>
+<p>There are a few differences in how these two systems operate, we will highlight below where these will matter to you.</p>
 </div>
 <h2 id="environment-modules">Environment Modules<a class="headerlink" href="#environment-modules" title="Permanent link">&para;</a></h2>
 <p>Environment modules provide a way for a dynamic modification of a user's environment and address some of the challenges listed above.
@@ -855,34 +936,64 @@ They are very useful in managing large numbers of applications and help to contr
 In most cases it will alter, or define shell variables such as <code>PATH</code>, <code>LD_LIBRARY_PATH</code>, etc.</p>
 <p>If there are specific dependencies, the modules will define and load them accordingly. For example, if a package relies on
 a specific compiler, the module file will load that compiler for you.</p>
+<h3 id="available-modules">Available Modules<a class="headerlink" href="#available-modules" title="Permanent link">&para;</a></h3>
 <p>To list available modules on the system use <code>module avail</code>. After you run it you should see something similar to the following output:</p>
 <div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login1:~$ module avail
 
------------------------------------------------------------------------------ /software/spackages_prod/modules/linux-ubuntu20.04-zen2 -----------------------------------------------------------------------------
-   alsa-lib/1.2.3.2-gcc-9.4.0                                                 perl-extutils-config/0.008-gcc-9.4.0
-   amdblis/3.0-gcc-9.4.0-python-3.8.12                                        perl-extutils-helpers/0.026-gcc-9.4.0
-   amdfftw/3.0-gcc-9.4.0-openmpi-4.1.1-python-3.8.12                          perl-extutils-installpaths/0.012-gcc-9.4.0
-   amdlibflame/3.0-gcc-9.4.0-python-3.8.12                                    perl-extutils-makemaker/7.24-gcc-9.4.0
-   anaconda3/2021.05-gcc-9.4.0                                                perl-extutils-pkgconfig/1.16-gcc-9.4.0
-   ant/1.10.7-gcc-9.4.0                                                       perl-file-listing/6.04-gcc-9.4.0
-   autoconf-archive/2019.01.06-gcc-9.4.0                                      perl-font-ttf/1.06-gcc-9.4.0
-   autoconf/2.69-gcc-9.4.0                                                    perl-gd/2.53-gcc-9.4.0-python-3.8.12
-   automake/1.16.3-gcc-9.4.0                                                  perl-html-parser/3.72-gcc-9.4.0
-   bazel/3.7.2-gcc-9.4.0-python-3.8.12                                        perl-html-tagset/3.20-gcc-9.4.0
-   bcftools/1.12-gcc-9.4.0-python-3.8.12                                      perl-http-cookies/6.04-gcc-9.4.0
-   bdftopcf/1.0.5-gcc-9.4.0                                                   perl-http-daemon/6.01-gcc-9.4.0
-   bedtools2/2.23.0-gcc-9.4.0-python-3.8.12                                   perl-http-date/6.02-gcc-9.4.0
-   berkeley-db/18.1.40-gcc-9.4.0                                              perl-http-message/6.13-gcc-9.4.0
-   binutils/2.37-gcc-9.4.0                                                    perl-http-negotiate/6.01-gcc-9.4.0
-   bismark/0.23.0-gcc-9.4.0-python-3.8.12                                     perl-io-html/1.001-gcc-9.4.0
-...
+---------------------------------------------------------- /opt/amazon/modules/modulefiles -----------------------------------------------------------
+libfabric-aws/2.4.0amzn1.0  openmpi/4.1.7  openmpi5/5.0.9amzn1  
+
+----------------------------------------------------------- /usr/share/modules/modulefiles -----------------------------------------------------------
+dot  miniforge3/26.3.2-3(latest)  module-git  module-info  modules  null  python/3.13.14  python/3.14.6(latest)  use.own  
+
+------------------------------------------------------- /opt/intel/mpi/2021.17/etc/modulefiles -------------------------------------------------------
+intelmpi/2021.17  
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>The version numbers you see might differ from the example shown here due to module updates since this training was written.</p>
+<p>The software modules and version numbers you see will differ from the example shown here because every HPC system is set up for the different needs of their users.</p>
 </div>
 <p>You can run the above command yourself to see the full list.
 Use the arrow keys to scroll up and down the list, and <code>q</code> to go back to the command line when you're done.</p>
+<h3 id="searching-and-examining-modules">Searching and Examining Modules<a class="headerlink" href="#searching-and-examining-modules" title="Permanent link">&para;</a></h3>
+<p>To find out more information about the module, use <code>module whatis</code></p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>whatis<span class="w"> </span>openmpi/4.1.7
+</code></pre></div>
+<p>You should see information about the module</p>
+<div class="highlight"><pre><span></span><code>openmpi/4.1.7: Sets up Open MPI v4.1.7 in your environment
+</code></pre></div>
+<p>For more detailed information about the module, use <code>module show</code></p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>show<span class="w"> </span>openmpi/4.1.7
+</code></pre></div>
+<p>You will see technical information on how the module changes the environment</p>
+<div class="highlight"><pre><span></span><code>-------------------------------------------------------------------
+/opt/amazon/modules/modulefiles/openmpi/4.1.7:
+
+module-whatis   {Sets up Open MPI v4.1.7 in your environment}
+prepend-path    PATH /opt/amazon/openmpi/bin
+prepend-path    LD_LIBRARY_PATH /opt/amazon/openmpi/lib
+prepend-path    MANPATH /opt/amazon/openmpi/share/man
+-------------------------------------------------------------------
+</code></pre></div>
+<p>The <code>module apropos</code> command can be used to search whatis information. Use this with your keyword of interest</p>
+<div class="highlight"><pre><span></span><code>module<span class="w"> </span>apropos<span class="w"> </span>mpi
+</code></pre></div>
+<p>This will show you all whatis information which contains that keyword</p>
+<div class="highlight"><pre><span></span><code>----------------------------------------------------------<span class="w"> </span>/opt/amazon/modules/modulefiles<span class="w"> </span>-----------------------------------------------------------
+<span class="w">       </span>openmpi/4.1.7:<span class="w"> </span>Sets<span class="w"> </span>up<span class="w"> </span>Open<span class="w"> </span>MPI<span class="w"> </span>v4.1.7<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>environment
+<span class="w"> </span>openmpi5/5.0.9amzn1:<span class="w"> </span>Sets<span class="w"> </span>up<span class="w"> </span>Open<span class="w"> </span>MPI<span class="w"> </span>v5.0.9amzn1<span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>environment
+
+-------------------------------------------------------<span class="w"> </span>/opt/intel/mpi/2021.17/etc/modulefiles<span class="w"> </span>-------------------------------------------------------
+<span class="w">    </span>intelmpi/2021.17:<span class="w"> </span>Name:<span class="w"> </span>Intel<span class="o">(</span>R<span class="o">)</span><span class="w"> </span>MPI<span class="w"> </span>Library
+<span class="w">    </span>intelmpi/2021.17:<span class="w"> </span>Version:<span class="w"> </span>modulefiles/2021.17
+<span class="w">    </span>intelmpi/2021.17:<span class="w"> </span>Description:<span class="w"> </span>Intel<span class="o">(</span>R<span class="o">)</span><span class="w"> </span>MPI<span class="w"> </span>Library
+<span class="w">    </span>intelmpi/2021.17:<span class="w"> </span>URL:<span class="w"> </span>https://www.intel.com/content/www/us/en/developer/tools/oneapi/mpi-library.html
+<span class="w">    </span>intelmpi/2021.17:<span class="w"> </span>Dependencies:<span class="w"> </span>none
+</code></pre></div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The <code>spider</code> command described below is only available for <code>Lmod</code> module systems.</p>
+</div>
 <p>If you know the name, or parts of the name of the package that you want to use, you can search for it using <code>module spider</code>, e.g.</p>
 <div class="highlight"><pre><span></span><code>module spider python
 
@@ -909,6 +1020,7 @@ Use the arrow keys to scroll up and down the list, and <code>q</code> to go back
      $ module spider python/3.11.6-gcc-13.2.0
 --------------------------------------------------------------------------------------------------------------------------------------------------
 </code></pre></div>
+<h3 id="using-modules">Using Modules<a class="headerlink" href="#using-modules" title="Permanent link">&para;</a></h3>
 <p>To load a module use <code>module load</code> command</p>
 <div class="highlight"><pre><span></span><code>module<span class="w"> </span>load<span class="w"> </span>python/3.11.6-gcc-13.2.0
 </code></pre></div>
@@ -946,12 +1058,6 @@ software is optimised for specific processor architectures. You will also avoid 
 <p class="admonition-title">Tip</p>
 <p>To remove <strong>all</strong> loaded modules use <code>module purge</code>.</p>
 </div>
-<p>To find out more information about the module, use <code>module whatis</code></p>
-<div class="highlight"><pre><span></span><code>module<span class="w"> </span>whatis<span class="w"> </span>python/3.11.6-gcc-13.2.0
-</code></pre></div>
-<p>You should see information about the module</p>
-<div class="highlight"><pre><span></span><code>python/3.11.6-gcc-13.2.0                       : The Python programming language.
-</code></pre></div>
 <h2 id="exercises-modules">Exercises - modules<a class="headerlink" href="#exercises-modules" title="Permanent link">&para;</a></h2>
 <p>To test your understanding of how to access software using modules, work through the exercises in <a href="../exercises/#using-modules">this section</a>.</p>
 <h2 id="installing-your-own-software">Installing your own software<a class="headerlink" href="#installing-your-own-software" title="Permanent link">&para;</a></h2>
@@ -970,8 +1076,8 @@ Singularity is a tool for running <a href="https://en.wikipedia.org/wiki/Contain
 <h3 id="python-virtual-environments">Python virtual environments<a class="headerlink" href="#python-virtual-environments" title="Permanent link">&para;</a></h3>
 <p>To create a Python virtual environment load the relevant python module and then execute <code>python3 -m venv envname</code> command replacing <code>envname</code> with the name
 of the environment you want to create:</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login1:~$ module load python/3.11.6-gcc-13.2.0
-k1234567@erc-hpc-login1:~$ python3 -m venv myenv
+<div class="highlight"><pre><span></span><code>k1234567@login1:~$ module load python/3.14.6
+k1234567@login1:~$ python3 -m venv myenv
 </code></pre></div>
 <p>With this, Python has created the <code>myenv</code> directory which now contains the required base files.</p>
 <div class="admonition tip">
@@ -980,8 +1086,8 @@ k1234567@erc-hpc-login1:~$ python3 -m venv myenv
 </div>
 <p>You only need to create the environment once. Once it has been created you do not need to run the command again (unless you need deleted the current one, or wish to create another one).</p>
 <p>To use the environment you have to activate it first by sourcing the activate script</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login1:~$ source myenv/bin/activate
-(myenv) k1234567@erc-hpc-login1:~$
+<div class="highlight"><pre><span></span><code>k1234567@login1:~$ source myenv/bin/activate
+(myenv) k1234567@login1:~$
 </code></pre></div>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -992,58 +1098,59 @@ Using full (absolute) path might be the safer alternative.</p>
 <ul>
 <li>
 <p>to install packages</p>
-<div class="highlight"><pre><span></span><code>(myenv) k1234567@erc-hpc-login2:~$ pip install pytest
-Collecting pytest
-  Downloading pytest-7.3.2-py3-none-any.whl (320 kB)
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 320.9/320.9 kB 12.8 MB/s eta 0:00:00
-Collecting tomli&gt;=1.0.0
-  Downloading tomli-2.0.1-py3-none-any.whl (12 kB)
-Collecting packaging
-  Downloading packaging-23.1-py3-none-any.whl (48 kB)
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.9/48.9 kB 2.5 MB/s eta 0:00:00
-Collecting iniconfig
-  Downloading iniconfig-2.0.0-py3-none-any.whl (5.9 kB)
-Collecting exceptiongroup&gt;=1.0.0rc8
-  Downloading exceptiongroup-1.1.1-py3-none-any.whl (14 kB)
-Collecting pluggy&lt;2.0,&gt;=0.12
-  Downloading pluggy-1.0.0-py2.py3-none-any.whl (13 kB)
-Installing collected packages: tomli, pluggy, packaging, iniconfig, exceptiongroup, pytest
-Successfully installed exceptiongroup-1.1.1 iniconfig-2.0.0 packaging-23.1 pluggy-1.0.0 pytest-7.3.2 tomli-2.0.1
-
-[notice] A new release of pip available: 22.3.1 -&gt; 23.1.2
-[notice] To update, run: pip install --upgrade pip
+<p><div class="highlight"><pre><span></span><code>(myenv) k1234567@login1:~$ pip install pytest
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>Collecting pytest
+  Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+Collecting iniconfig&gt;=1.0.1 (from pytest)
+  Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+Collecting packaging&gt;=22 (from pytest)
+  Using cached packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+Collecting pluggy&lt;2,&gt;=1.5 (from pytest)
+  Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+Collecting pygments&gt;=2.7.2 (from pytest)
+  Downloading pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+Using cached packaging-26.2-py3-none-any.whl (100 kB)
+Downloading pygments-2.20.0-py3-none-any.whl (1.2 MB)
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 67.3 MB/s  0:00:00
+Installing collected packages: pygments, pluggy, packaging, iniconfig, pytest
+Successfully installed iniconfig-2.3.0 packaging-26.2 pluggy-1.6.0 pygments-2.20.0 pytest-9.1.1
+</code></pre></div></p>
 </li>
 <li>
 <p>or to run python scripts</p>
-<div class="highlight"><pre><span></span><code>(myenv) k1234567@erc-hpc-login1:~$ python /datasets/hpc_training/utils/helloworld.py
-Hello World!
+<p><div class="highlight"><pre><span></span><code>(myenv) k1234567@login1:~$ python /datasets/hpc_training/utils/helloworld.py
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>Hello World!
+</code></pre></div></p>
 </li>
 </ul>
 <p>To deactivate the environment use <code>deactivate</code> command</p>
-<div class="highlight"><pre><span></span><code>(myenv) k1234567@erc-hpc-login1:~$ deactivate
+<div class="highlight"><pre><span></span><code>(myenv) k1234567@login1:~$ deactivate
 k1234567@erc-hpc-login1:~$
 </code></pre></div>
 <p>You will see that the environment name has disappeared from the shell prompt.</p>
 <details class="note">
 <summary>Conda virtual environments</summary>
-<p>Conda is another tool for creating virtual environments.
-On CREATE, Conda is available via the <code>anaconda3</code> module.</p>
+<p>Conda is another tool for creating python-related virtual environments.
+Conda is often available via <code>anaconda3</code> or <code>miniforge3</code> modules.</p>
 <p>To use Conda, first load the module:</p>
-<div class="highlight"><pre><span></span><code>module load anaconda3/2022.10-gcc-13.2.0
+<div class="highlight"><pre><span></span><code>module load miniforge3/26.3.2-3
 </code></pre></div>
 <p>You can then create a virtual environment and specify the packages you want to install into that environment.
 For example, to create an environment with a specific version of Python:</p>
 <div class="highlight"><pre><span></span><code>conda create --name python39-env python=3.9
 </code></pre></div>
 <p>The environment can be activated by running <code>conda activate</code> with the name of the env</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login1:~$ conda activate python39-env
-(python39-env) k1234567@erc-hpc-login1:~$
+<div class="highlight"><pre><span></span><code>k1234567@login1:~$ conda activate python39-env
+(python39-env) k1234567@login1:~$
 </code></pre></div>
 <p>and deactivated by running <code>conda deactivate</code></p>
-<div class="highlight"><pre><span></span><code>(python39-env) k1234567@erc-hpc-login1:~$ conda deactivate
-k1234567@erc-hpc-login1:~$
+<div class="highlight"><pre><span></span><code>(python39-env) k1234567@login1:~$ conda deactivate
+k1234567@login1:~$
 </code></pre></div>
 <p>As with Python virtualenvs, note that the name of the active Conda environment is prepended to your prompt when the environment is active.</p>
 <div class="admonition tip">

@@ -9,7 +9,7 @@
         <meta name="description" content="High Performance Computing for Digital Humanities">
       
       
-        <meta name="author" content="KCL e-Research">
+        <meta name="author" content="KCL e-Research / UoM Research IT">
       
       
         <link rel="canonical" href="https://UoMResearchIT.github.io/High-Performance-Computing-for-Digital-Humanities/parallel_jobs/">
@@ -898,9 +898,9 @@ This program is available at <code>/datasets/hpc_training/utils/omp_hello</code>
 <p>Most of the example files we use in this section can be found on CREATE at <code>/datasets/hpc_training/</code>.</p>
 </div>
 <p>We need to create a shell script that requests appropriate resources to run the program:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">#SBATCH --job-name=omp_hello</span>
-<span class="c1">#SBATCH --partition=cpu</span>
-<span class="c1">#SBATCH --reservation=cpu_introduction</span>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash --login</span>
+<span class="c1">#SBATCH --job-name=omp_hello</span>
+<span class="c1">#SBATCH --partition=simple</span>
 <span class="c1">#SBATCH --ntasks=1</span>
 <span class="c1">#SBATCH --cpus-per-task=4</span>
 <span class="c1">#SBATCH --mem=2G</span>
@@ -969,17 +969,16 @@ Took 1.6164 seconds
 <li>In the main block we call the <code>calculate_squares()</code> function and time how long it takes to run.</li>
 </ul>
 <p>To execute the above code on CREATE, we can use <code>submit_squares.sh</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash --login</span>
 <span class="c1">#SBATCH --job-name=squares_numba</span>
-<span class="c1">#SBATCH --partition=cpu</span>
-<span class="c1">#SBATCH --reservation=cpu_introduction</span>
+<span class="c1">#SBATCH --partition=simple</span>
 <span class="c1">#SBATCH --ntasks=1</span>
 <span class="c1">#SBATCH --cpus-per-task=4</span>
 <span class="c1">#SBATCH --mem=2G</span>
 <span class="c1">#SBATCH -t 0-0:02 # time (D-HH:MM)</span>
 
 <span class="c1"># Load any required modules</span>
-module<span class="w"> </span>load<span class="w"> </span>python/3.9.12-gcc-10.3.0<span class="w">  </span>
+module<span class="w"> </span>load<span class="w"> </span>python/3.14.6<span class="w">  </span>
 
 <span class="c1"># Activate virtual environment</span>
 <span class="nb">source</span><span class="w"> </span>numba_env/bin/activate
@@ -1020,8 +1019,7 @@ Using array jobs is an easy way to parallelise your workloads, as long as the fo
 <p>A sample array job is given below:</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash -l</span>
 <span class="c1">#SBATCH --job-name=array-sample</span>
-<span class="c1">#SBATCH --partition=cpu</span>
-<span class="c1">#SBATCH --reservation=cpu_introduction</span>
+<span class="c1">#SBATCH --partition=simple</span>
 <span class="c1">#SBATCH --ntasks=1</span>
 <span class="c1">#SBATCH --mem=1G</span>
 <span class="c1">#SBATCH -t 0-0:02 # time (D-HH:MM)</span>
@@ -1046,8 +1044,7 @@ This is a great usecase for array jobs.</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#! /bin/bash -l</span>
 
 <span class="c1">#SBATCH --job-name=top_words</span>
-<span class="c1">#SBATCH --partition=cpu</span>
-<span class="c1">#SBATCH --reservation=cpu_introduction</span>
+<span class="c1">#SBATCH --partition=simple</span>
 <span class="c1">#SBATCH --ntasks=1</span>
 <span class="c1">#SBATCH --cpus-per-task=1</span>
 <span class="c1">#SBATCH --mem=2G</span>
@@ -1056,7 +1053,7 @@ This is a great usecase for array jobs.</p>
 module<span class="w"> </span>load<span class="w"> </span>python/3.11.6-gcc-13.2.0
 <span class="nb">source</span><span class="w"> </span>top_words_env/bin/activate
 
-python<span class="w"> </span>top_words.py<span class="w"> </span>paradise-lost.txt<span class="w"> </span><span class="m">20</span>
+python<span class="w"> </span>/datasets/hpc_training/DH-RSE/scripts/top_words.py<span class="w"> </span>/datasets/hpc_training/DH-RSE/data/paradise-lost.txt<span class="w"> </span><span class="m">20</span>
 </code></pre></div>
 <p>There are multiple text files we can use as input in the <code>/datasets/hpc_training/DH-RSE/data/</code> folder.
 We'll use <code>ls</code> to create a list of these input files and save it to an file.</p>
@@ -1074,22 +1071,21 @@ Here's what our updated submission script looks like:</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#! /bin/bash -l</span>
 
 <span class="c1">#SBATCH --job-name=top_words</span>
-<span class="c1">#SBATCH --partition=cpu</span>
-<span class="c1">#SBATCH --reservation=cpu_introduction</span>
+<span class="c1">#SBATCH --partition=simple</span>
 <span class="c1">#SBATCH --ntasks=1</span>
 <span class="c1">#SBATCH --cpus-per-task=1</span>
 <span class="c1">#SBATCH --mem=2G</span>
 <span class="c1">#SBATCH -t 0-0:10 # time (D-HH:MM)</span>
 <span class="c1">#SBATCH --array=1-10</span>
 
-module<span class="w"> </span>load<span class="w"> </span>python/3.11.6-gcc-13.2.0
+module<span class="w"> </span>load<span class="w"> </span>python/3.14.6
 <span class="nb">source</span><span class="w"> </span>top_words_env/bin/activate
 
 <span class="nv">input_file</span><span class="o">=</span><span class="sb">`</span>head<span class="w"> </span>input_files.txt<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="sb">`</span>
 
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Analysing &quot;</span><span class="nv">$input_file</span>
 
-python<span class="w"> </span>top_words.py<span class="w"> </span><span class="nv">$input_file</span><span class="w"> </span><span class="m">20</span>
+python<span class="w"> </span>/datasets/hpc_training/DH-RSE/scripts/top_words.py<span class="w"> </span><span class="nv">$input_file</span><span class="w"> </span><span class="m">20</span>
 </code></pre></div>
 <p>Submit the array job with:</p>
 <div class="highlight"><pre><span></span><code>sbatch<span class="w"> </span>submit_top_words_array.sh
@@ -1110,13 +1106,13 @@ uses, or supports MPI then it can be executed on multiple nodes in parallel.
 For example, given the following submission script:</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash -l</span>
 <span class="c1">#SBATCH --job-name=multinode-test</span>
-<span class="c1">#SBATCH --partition=cpu</span>
+<span class="c1">#SBATCH --partition=complex</span>
 <span class="c1">#SBATCH --nodes=2</span>
 <span class="c1">#SBATCH --ntasks=16</span>
 <span class="c1">#SBATCH --mem=2G</span>
 <span class="c1">#SBATCH -t 0-0:05 # time (D-HH:MM)</span>
 
-module<span class="w"> </span>load<span class="w"> </span>openmpi/4.1.3-gcc-10.3.0-python3+-chk-version
+module<span class="w"> </span>load<span class="w"> </span>openmpi5/5.0.9amzn1
 
 mpirun<span class="w"> </span>/datasets/hpc_training/utils/mpi_hello
 </code></pre></div>

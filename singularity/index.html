@@ -9,7 +9,7 @@
         <meta name="description" content="High Performance Computing for Digital Humanities">
       
       
-        <meta name="author" content="KCL e-Research">
+        <meta name="author" content="KCL e-Research / UoM Research IT">
       
       
         <link rel="canonical" href="https://UoMResearchIT.github.io/High-Performance-Computing-for-Digital-Humanities/singularity/">
@@ -728,13 +728,12 @@
 You can find out more information about Singularity <a href="https://sylabs.io/singularity/">here</a>.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>Singularity is only available on the compute nodes.
-You will not be able to run these commands on the login nodes, so for this section you should start an interactive job using:</p>
-<div class="highlight"><pre><span></span><code>srun --partition cpu --reservation cpu_introduction --pty /bin/bash
-</code></pre></div>
+<p>To reduce the load on the log-in nodes you can run the following commands as an interactive job.
+<div class="highlight"><pre><span></span><code>srun --partition simple --pty /bin/bash
+</code></pre></div></p>
 </div>
 <p>Singularity is already on the path and you will be able to pull the prebuilt/3rd party containers from Docker/Singularity hubs using</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login1:~$<span class="w"> </span>singularity<span class="w"> </span>pull<span class="w"> </span>docker://sylabsio/lolcow
+<div class="highlight"><pre><span></span><code>k1234567@login1:~$<span class="w"> </span>singularity<span class="w"> </span>pull<span class="w"> </span>docker://sylabsio/lolcow
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>INFO:    Converting OCI blobs to SIF format
 INFO:    Starting build...
@@ -749,11 +748,9 @@ Storing signatures
 INFO:    Creating SIF file...
 </code></pre></div>
 <p>and execute/run them once they have been downloaded and stored on the filesystem</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login1:~$<span class="w"> </span>singularity<span class="w"> </span>run<span class="w"> </span>lolcow_latest.sif
+<div class="highlight"><pre><span></span><code>k1234567@login1:~$<span class="w"> </span>singularity<span class="w"> </span>run<span class="w"> </span>lolcow_latest.sif
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>INFO:    Converting SIF file to temporary sandbox...
-WARNING: underlay of /etc/localtime required more than 50 (77) bind mounts
- _____________________________
+<div class="highlight"><pre><span></span><code> _____________________________
 &lt; Thu Nov 9 20:15:06 GMT 2023 &gt;
  -----------------------------
         \   ^__^
@@ -761,14 +758,11 @@ WARNING: underlay of /etc/localtime required more than 50 (77) bind mounts
             (__)\       )\/\
                 ||----w |
                 ||     ||
-INFO:    Cleaning up image...
 </code></pre></div>
 <p>Generally, the <code>run</code> command will run a default script (also known as an entrypoint) that has been defined within the container. If you want to execute a specific command within the container you can do so using the <code>exec</code> option</p>
-<div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login1:~$<span class="w"> </span>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>lolcow_latest.sif<span class="w"> </span>cowsay<span class="w"> </span><span class="s2">&quot;Hello World&quot;</span>
+<div class="highlight"><pre><span></span><code>k1234567@login1:~$<span class="w"> </span>singularity<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>lolcow_latest.sif<span class="w"> </span>cowsay<span class="w"> </span><span class="s2">&quot;Hello World&quot;</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>INFO:    Converting SIF file to temporary sandbox...
-WARNING: underlay of /etc/localtime required more than 50 (77) bind mounts
- _____________
+<div class="highlight"><pre><span></span><code> _____________
 &lt; Hello World &gt;
  -------------
         \   ^__^
@@ -776,16 +770,14 @@ WARNING: underlay of /etc/localtime required more than 50 (77) bind mounts
             (__)\       )\/\
                 ||----w |
                 ||     ||
-INFO:    Cleaning up image...
 </code></pre></div>
-<p>You can also build the containers yourself, but for the moment you will have to perform the building outside CREATE environment.
-Once built, you can copy them over and use them without any issues.</p>
+<p>You can also build containers yourself, but this is outside of the scope of this course.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Using third party containers is a great way to get started, but you need to make sure that the container is behaving as expected before using it in your work.</p>
 </div>
 <h2 id="exercises">Exercises<a class="headerlink" href="#exercises" title="Permanent link">&para;</a></h2>
-<p>Work through the exercises <a href="../exercises/#using-modules">here</a> to test your understanding of how to use Singularity on CREATE HPC.</p>
+<p>Work through the exercises <a href="../exercises/#using-modules">here</a> to test your understanding of how to use Singularity on HPC.</p>
 
 
 

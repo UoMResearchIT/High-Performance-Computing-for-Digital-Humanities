@@ -9,7 +9,7 @@
         <meta name="description" content="High Performance Computing for Digital Humanities">
       
       
-        <meta name="author" content="KCL e-Research">
+        <meta name="author" content="KCL e-Research / UoM Research IT">
       
       
         <link rel="canonical" href="https://UoMResearchIT.github.io/High-Performance-Computing-for-Digital-Humanities/connecting/">
@@ -324,10 +324,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#connecting-to-create-hpc" class="md-nav__link">
+  <a href="#connecting-to-hpc" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Connecting to CREATE HPC
+        Connecting to HPC
       
     </span>
   </a>
@@ -725,10 +725,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#connecting-to-create-hpc" class="md-nav__link">
+  <a href="#connecting-to-hpc" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Connecting to CREATE HPC
+        Connecting to HPC
       
     </span>
   </a>
@@ -768,7 +768,7 @@
 
 <h1 id="before-we-begin">Before we begin<a class="headerlink" href="#before-we-begin" title="Permanent link">&para;</a></h1>
 <h2 id="introduction-to-the-terminal">Introduction to the terminal<a class="headerlink" href="#introduction-to-the-terminal" title="Permanent link">&para;</a></h2>
-<p>Throughout this training we'll be interacting with CREATE via a <strong>terminal</strong> or <strong>command line</strong>.
+<p>Throughout this training we'll be interacting with the HPC system via a <strong>terminal</strong> or <strong>command line</strong>.
 This means we'll be providing our instructions and receiving responses in text form.
 There's a few important commands we'll cover gradually as we need them.</p>
 <p>Why text instead of a graphical interface?
@@ -787,89 +787,74 @@ There are several advantages which a text-based interface gets us:</p>
 </ul>
 <p>You should be familiar with basic terminal commands before participating in this workshop.
 However, we have created a list of <a href="../unix_commands/">common commands</a> you can use as a reference sheet.</p>
-<h2 id="connecting-to-create-hpc">Connecting to CREATE HPC<a class="headerlink" href="#connecting-to-create-hpc" title="Permanent link">&para;</a></h2>
-<p>You should have been provided with a guest username and password which you can use to log in to CREATE HPC.
-King's staff and students use their King's user id, or "k-number" to connect, so the example username we will use in this workshop is <code>k1234567</code>.
-You can connect to the login nodes using the following command, replacing <code>k1234567</code> with your guest username:</p>
-<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>k1234567@hpc.create.kcl.ac.uk
+<h2 id="connecting-to-hpc">Connecting to HPC<a class="headerlink" href="#connecting-to-hpc" title="Permanent link">&para;</a></h2>
+<p>You should have been provided with a guest username and password which you can use to log in to the HPC system used for this course. The exact format of this guest username will differ depending on the requirements of the administration team for your HPC system. It will be an alphanumeric string, containing no special characters, and will possibly based on your email address or name.</p>
+<p>The server address of your HPC system will also depend on what your training team have setup. If you are using an existing HPC system this might be an address such as <code>hpc.create.kcl.ac.uk</code> or <code>csf3.itservices.manchester.ac.uk</code>. If your training team has set up a cloud-hosted instance for you, then this might just be the plain IP address, such as <code>035.177.011.164</code>. </p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>For the purposes of this training material we will use <code>k1234567</code> as our example username, and <code>hpc.university.ac.uk</code> as our server name. We may, where appropriate, alternatively use <code>&lt;username&gt;</code> or <code>&lt;server&gt;</code> to indicate where the user or server name should go. In either instance, when following the material below, you should replace these both with the username and server address that your trainers have provided you.</p>
+</div>
+<p>You can connect to the login nodes using the following command (replacing <code>k1234567</code> with your guest username, and <code>hpc.university.ac.uk</code> with your server name):</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>k1234567@hpc.university.ac.uk
 </code></pre></div>
 <p>You will be prompted to enter your password:</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ssh<span class="w"> </span>k1234567@hpc.create.kcl.ac.uk
-k1234567@hpc.create.kcl.ac.uk<span class="err">&#39;</span>s<span class="w"> </span>password:<span class="w"> </span>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>ssh<span class="w"> </span>k1234567@hpc.university.ac.uk
+k1234567@hpc.university.ac.uk<span class="err">&#39;</span>s<span class="w"> </span>password:<span class="w"> </span>
 </code></pre></div>
 <p>Type your password then press 'Enter'.
 You will not see any indication that your password has been typed in - this is normal!
 If the password is incorrect you will be prompted to retype it.</p>
-<p>Upon successful connection you should see something similar to</p>
-<div class="highlight"><pre><span></span><code>==================================================================
-King&#39;s College London | e-Research
-------------------------------------------------------------------
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The first time you login you may be asked to change your password. To do this you will reenter your guest password, and then asked twice to type in your new password. You will not see any indication that your password has been typed in. If you do change your password make sure to follow best practice in creating it, such as using <a href="https://www.ncsc.gov.uk/collection/top-tips-for-staying-secure-online/three-random-words">three random words</a>.</p>
+</div>
+<p>Upon successful connection you should see information about the system you have logged on to, perhaps similar to</p>
+<div class="highlight"><pre><span></span><code>Welcome to Ubuntu 24.04.4 LTS (GNU/Linux 6.17.0-1015-aws x86_64)
 
-Welcome to erc-hpc-login1.create.kcl.ac.uk
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
 
+ System information as of Fri Jun 26 15:44:05 UTC 2026
 
-This machine is part of
-
- ██████╗██████╗ ███████╗ █████╗ ████████╗███████╗
-██╔════╝██╔══██╗██╔════╝██╔══██╗╚══██╔══╝██╔════╝
-██║     ██████╔╝█████╗  ███████║   ██║   █████╗
-██║     ██╔══██╗██╔══╝  ██╔══██║   ██║   ██╔══╝
-╚██████╗██║  ██║███████╗██║  ██║   ██║   ███████╗
- ╚═════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
-
-------------------------------------------------------------------
-This machine is automatically updated on the 5th of each month
-at 03:47 BST. It may reboot shortly thereafter.
-------------------------------------------------------------------
-
-Documentation: https://docs.er.kcl.ac.uk/
-
-Please contact e-research@kcl.ac.uk for support.
-...
-Only files stored within /rds and /users are backed up.
-
-Please remember to acknowledge CREATE in your research outputs:
-  https://docs.er.kcl.ac.uk/CREATE/acknowledging/
+  System load:  0.0                 Temperature:           -273.1 C
+  Usage of /:   21.2% of 122.94GB   Processes:             169
+  Memory usage: 11%                 Users logged in:       1
+  Swap usage:   0%                  IPv4 address for ens5: 10.0.0.248
 
 ==================================================================
-k1234567@erc-hpc-login1:~$
+k1234567@login1:~$
 </code></pre></div>
 <h2 id="the-environment">The environment<a class="headerlink" href="#the-environment" title="Permanent link">&para;</a></h2>
+<p>All HPC systems will be UNIX based, probably a linux system such as Ubuntu. They will likely use a Bash shell.</p>
+<p>Each HPC filesystem will be setup according to local requirements. But they generally will include common elements such as:</p>
 <ul>
-<li>Ubuntu 22.04 LTS Linux operating system with the Bash shell</li>
-<li>Directories/locations of interest<ul>
-<li>Home directory located in <code>/users/k-number</code></li>
-<li>Personal scratch space located in <code>/scratch/users/k-number</code></li>
-<li>Group scratch space located in <code>/scratch/grp/group-name</code></li>
-<li>Project space located in <code>/scratch/prj/prj-name</code></li>
-<li>RDS space located in <code>/rds/prj-name</code></li>
-<li>Datasets space located in <code>/datasets/dataset-name</code></li>
+<li>Home directory located in <code>/users/</code> or <code>/home/</code></li>
+<li>Personal scratch space located in <code>/scratch/</code> or <code>/scratch/users/</code></li>
+<li>Group or project scratch space located in <code>/scratch/group/</code> or <code>/scratch/project/</code></li>
+<li>Long-term research data storage located in <code>/rds/</code> or similar</li>
+<li>Datasets space located in <code>/datasets/</code> or similar</li>
 </ul>
-</li>
-</ul>
-<p>Most of these directories will be useful to you at some point over the course of your research, so we'll briefly introduce each in turn.
-For more information, see our <a href="https://docs.er.kcl.ac.uk/CREATE/storage/">storage docs</a>.</p>
-<p><strong>Home directory:</strong> <code>/users/k-number</code>.
-Your home directory is the directory you see when you log in to CREATE.
+<p>Most of these directories will be useful to you at some point over the course of your research, so we'll briefly introduce each in turn.</p>
+<p><strong>Home directory:</strong> <code>/home/&lt;username&gt;</code>.
+Your home directory is the directory you see when you log in to .
 This is a good place to put any code you write or other custom software, configuration files and small amounts of data.
 This directory is only accessible by you by default - other users can't access files in your home directory unless you specifically allow them to.
-You will typically be allocated 50GiB for your home directory.</p>
-<p><strong>Personal scratch:</strong> <code>/scratch/users/k-number</code>.
+You will typically be allocated a small amount of disk space, such as 50GiB, for your home directory.</p>
+<p><strong>Personal scratch:</strong> <code>/scratch/&lt;username&gt;</code>.
 Your personal scratch space is where you should store the input and output data for your active research.
 Scratch space is designed to provide much higher performance which is important for many HPC jobs and has a much higher capacity and personal allocation.
 Your personal scratch space can only be accessed by you by default - just like your home directory.
-You will typically be allocated 200GiB for your personal scratch, but may request more if necessary.</p>
-<p><strong>Group scratch:</strong> <code>/scratch/grp/group-name</code> and <strong>Project scratch:</strong> <code>/scratch/prj/prj-name</code>.
-Group or project scratch space is similar to your personal scratch space but as the name suggests is shared by a group or a project.
-Every member of the group or project will be able to access the files stored in this space.
-Projects are initially allocated 1TiB, but may request more space if necessary at a cost of £50 per TiB.
-Researchers may request that a project be created in CREATE for their work by emailing <a href="mailto:e-research@kcl.ac.uk">e-research@kcl.ac.uk</a>.</p>
-<p><strong>Research Data Store (RDS):</strong> <code>/rds/prj-name</code>.</p>
-<p>The Research Data Store is our large-scale storage facility for live research data.
-This is suitable for the largest datasets used by projects and where it's important that the data be properly backed up.</p>
+You will typically be allocated a larger, but still limited, amount of disk space, such as 200GiB, for your personal scratch, but usually you may request more if necessary.</p>
+<p><strong>Group scratch:</strong> <code>/scratch/grp/&lt;groupname&gt;</code> or <strong>Project scratch:</strong> <code>/scratch/prj/&lt;projectname&gt;</code>.
+Group or project scratch space, where provided, is similar to your personal scratch space but as the name suggests is shared by a group or a project.
+Every member of the group or project will be able to access the files stored in this space.</p>
+<p><strong>Research Data Store (RDS):</strong> <code>/rds/&lt;projectname&gt;</code>.</p>
+<p>Many institutions provide a networked large-scale storage facility for live research data.
+These are suitable for the largest datasets used by projects and where it's important that the data be properly backed up.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>The only data storage locations that are backed up are your home directory (<code>/users/k-number</code>) and RDS projects (<code>/rds/prj-name</code>). Data stored in scratch is <em>not</em> backed up, so make sure you copy any important results or code to RDS or another location that is backed up.</p>
+<p>Generally the only data storage locations that are backed up are your home directory (<code>/home/&lt;username&gt;</code>) and RDS projects (<code>/rds/&lt;projectname&gt;</code>). Data stored in scratch is <em>not</em> backed up, so make sure you copy any important results or code to RDS or another location that is backed up.</p>
 </div>
 
 
