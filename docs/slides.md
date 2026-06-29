@@ -69,7 +69,7 @@ The cluster uses a job scheduler that is designed to support different types of
 ## Log in through a Terminal
 
 * SSH means "Secure Shell" and is a way of connecting to secure services.
-* You will need to tell it who you are (username) and wher you want to connect to (hostname)
+* You will need to tell it who you are (username) and where you want to connect to (hostname)
 * `ssh -l <username> <hostname>`
 * In the examples we will use "k1234567" as an example username and "hpc.university.ac.uk" as an example hostname.
 
