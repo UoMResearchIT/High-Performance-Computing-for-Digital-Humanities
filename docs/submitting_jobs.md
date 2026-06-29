@@ -59,7 +59,7 @@ When the scheduler picks our job from the queue, it will run this script.
 There's several ways we could create this script on the cluster, but for short scripts it's often easiest to use a **command line text editor** to create it directly on the cluster.
 For more complex scripts you might prefer to write them on your computer and transfer them across, but it's relatively rare that job submission scripts get that complex.
 
-There are a few terminal-based text editors, such as Vim and Emacs, so you can check what is available on your HPC system and choose which one you are most comforrtable using. We will demonstrate one common text editor that you should always have access to on HPC systems - `nano`:
+There are a few terminal-based text editors, such as Vim and Emacs, so you can check what is available on your HPC system and choose which one you are most comfortable using. We will demonstrate one common text editor that you should always have access to on HPC systems - `nano`:
 
 ```bash
 nano test_job.sh
