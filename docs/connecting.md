@@ -16,7 +16,7 @@ There are several advantages which a text-based interface gets us:
 
 Depending on your operating system there are a number of terminal applications available which we would recommend:
 
-- Windows: PowerShell - note that this uses a different command syntax, but once we're logged into CREATE this won't matter
+- Windows: PowerShell - note that this uses a different command syntax, but once we're logged into the HPC this won't matter
 - MacOS: Terminal
 - Linux: The name of your terminal application may vary, but it's usually called something like "Terminal"
 
@@ -87,7 +87,7 @@ Each HPC filesystem will be setup according to local requirements. But they gene
 Most of these directories will be useful to you at some point over the course of your research, so we'll briefly introduce each in turn.
 
 **Home directory:** `/home/<username>`.
-Your home directory is the directory you see when you log in to .
+Your home directory is normally the directory you see when you log in.
 This is a good place to put any code you write or other custom software, configuration files and small amounts of data.
 This directory is only accessible by you by default - other users can't access files in your home directory unless you specifically allow them to.
 You will typically be allocated a small amount of disk space, such as 50GiB, for your home directory.
