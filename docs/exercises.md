@@ -5,7 +5,7 @@ This section contains collection of exercises based on the material covered in t
 Sample answers are provided in-line in the expandable boxes, but please try to do exercises by yourself
 before looking at the sample answers. There are also some hints to help you if you are stuck.
 
-Supporting files can be found on CREATE HPC in `/datasets/hpc_training` directory. The
+Supporting files can be found on the HPC in `/datasets/hpc_training` directory. The
 directory also contains example scripts from the exercises for convenience.
 
 !!! info
