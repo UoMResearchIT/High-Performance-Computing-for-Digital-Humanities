@@ -46,7 +46,7 @@ As an example, let's run a minimal C parallel program, called `omp_hello.c`, tha
 This program is available at `/datasets/hpc_training/utils/omp_hello`.
 
 !!! note "Example files"
-    Most of the example files we use in this section can be found on CREATE at `/datasets/hpc_training/`.
+    Most of the example files we use in this section can be found on the HPC system at `/datasets/hpc_training/`.
 
 We need to create a shell script that requests appropriate resources to run the program:
 
@@ -134,7 +134,7 @@ The key steps in this code are:
 * Using `numba.prange` for our loop instead of the usual `range` causes it to be executed in parallel across all available threads. Each thread will be given an approximately equal share of the loop iterations to execute.
 * In the main block we call the `calculate_squares()` function and time how long it takes to run.
 
-To execute the above code on CREATE, we can use `submit_squares.sh`:
+To execute the above code on our HPC worker nodes, we can use `submit_squares.sh`:
 
 ```bash
 #!/bin/bash --login

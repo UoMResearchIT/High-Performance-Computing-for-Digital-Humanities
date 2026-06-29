@@ -201,7 +201,7 @@ sacct -j 13378473 --format=ReqMem,AllocNodes,AllocCPUS,NodeList,JobID,Elapsed,St
 For the list of available options please see the job accounting fields in the [`sacct`](https://slurm.schedmd.com/sacct.html) documentation.
 
 !!!tip "Check how efficiently your job used its resources"
-    `sacct` can be used to check how efficiently your job used the resources you requested.
+    If available on your system, `sacct` can be used to check how efficiently your job used the resources you requested.
     For example, you can use the option `--format=JobID,JobName,Timelimit,Elapsed,CPUTime,ReqCPUS,NCPUS,ReqMem,MaxRSS`
     to get information on the maximum memory usage, total elapsed time, and CPU time used by your job.
 
