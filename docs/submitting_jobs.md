@@ -172,7 +172,7 @@ k1234567@login1:~$ squeue --me
 To see recently completed jobs as well, you need to tell `squeue` to report all job states using the `--states=all` flag, or `-t` for short:
 
 ```bash
-k1234567@login1:~$ squeue --me -t
+k1234567@login1:~$ squeue --me -t all
 ```
 
 This will show you how long your job took to run. For more detailed information on jobs that have finished, you can also use [`sacct`](https://slurm.schedmd.com/sacct.html) if this is installed on your HPC system.
