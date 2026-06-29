@@ -3,7 +3,7 @@
 - Find your own institution's HPC and look up their documentation. Do they offer an introductory course similar to this one so you can learn how their setup works?
 - Request an account and see what similarities and differences it has from the system we used in the course.
 - Find a UK, European or global HPC that you can access. What is their process for getting an account? Do they offer a limited free service for learning or testing your application?
-- For a piece fo software you use in your research, look at documentation and see if it can be run in parallel.
+- For a piece of software you use in your research, look at documentation and see if it can be run in parallel.
 
 ## Transferring files
 
