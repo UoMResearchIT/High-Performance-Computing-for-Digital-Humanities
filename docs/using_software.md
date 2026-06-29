@@ -146,7 +146,7 @@ module spider python
 To load a module use `module load` command
 
 ```bash
-module load python/3.11.6-gcc-13.2.0
+module load python/3.13.14
 ```
 
 The above command loads a specific version of the application/module. If the explicit version is omitted during the `module load` request,
@@ -180,7 +180,7 @@ Currently Loaded Modules:
 To remove, or unload a specific module use `module rm`
 
 ```bash
-module rm python/3.11.6-gcc-13.2.0
+module rm python/3.13.14
 ```
 
 This will also unload any dependent modules required by the module you are unloading.

@@ -59,7 +59,7 @@ When the scheduler picks our job from the queue, it will run this script.
 There's several ways we could create this script on the cluster, but for short scripts it's often easiest to use a **command line text editor** to create it directly on the cluster.
 For more complex scripts you might prefer to write them on your computer and transfer them across, but it's relatively rare that job submission scripts get that complex.
 
-One common text editor that you should always have access to on systems like CREATE is `nano`:
+There are a few terminal-based text editors, such as Vim and Emacs, so you can check what is available on your HPC system and choose which one you are most comfortable using. We will demonstrate one common text editor that you should always have access to on HPC systems - `nano`:
 
 ```bash
 nano test_job.sh
@@ -129,10 +129,10 @@ To exit an interactive job, we use the Bash command `exit` - this exits the curr
 
 !!! info "Running applications with Graphical User Interfaces (GUIs)"
 
-    To run an interactive job for an application with a Graphical User Interface (GUI), for example RStudio, you must enable 'X11 forwarding' and 'authentication agent forwarding' when you connect to CREATE:
+    To run an interactive job for an application with a Graphical User Interface (GUI), for example RStudio, you must enable 'X11 forwarding' and 'authentication agent forwarding' when you connect:
 
     ```bash
-    ssh -XA hpc.create.kcl.ac.uk
+    ssh -XA hpc.university.ac.uk
     ```
 
     Then request compute resources using `salloc` - once your resources have been allocated you can then connect to the node with a further `ssh` connection:
@@ -149,8 +149,7 @@ It is important to be able to see the status of your running jobs, or to find ou
 about completed, or failed jobs.
 
 To monitor the status of the running jobs use [`squeue`](https://slurm.schedmd.com/squeue.html) utility.
-Without any arguments, the command will print queue information for all users, however you can use `--me` parameter
-to filter the list:
+Without any arguments, the command will print queued and running job information for all users, however you can use `--me` parameter to filter the list:
 
 ```text
 k1234567@login1:~$ squeue --me
@@ -170,7 +169,13 @@ k1234567@login1:~$ squeue --me
     * `CG`: Completing - Job is in the process of completing. Some processes on some nodes may still be active.
     * `CD`: Completed - Job has terminated all processes on all nodes with an exit code of zero.
 
-For jobs that have finished, you can use [`sacct`](https://slurm.schedmd.com/sacct.html) utility to extract the relevant information.
+To see recently completed jobs as well, you need to tell `squeue` to report all job states using the `--states=all` flag, or `-t` for short:
+
+```bash
+k1234567@login1:~$ squeue --me -t all
+```
+
+This will show you how long your job took to run. For more detailed information on jobs that have finished, you can also use [`sacct`](https://slurm.schedmd.com/sacct.html) if this is installed on your HPC system.
 
 ```text
 sacct -j 56543
@@ -196,7 +201,7 @@ sacct -j 13378473 --format=ReqMem,AllocNodes,AllocCPUS,NodeList,JobID,Elapsed,St
 For the list of available options please see the job accounting fields in the [`sacct`](https://slurm.schedmd.com/sacct.html) documentation.
 
 !!!tip "Check how efficiently your job used its resources"
-    `sacct` can be used to check how efficiently your job used the resources you requested.
+    If available on your system, `sacct` can be used to check how efficiently your job used the resources you requested.
     For example, you can use the option `--format=JobID,JobName,Timelimit,Elapsed,CPUTime,ReqCPUS,NCPUS,ReqMem,MaxRSS`
     to get information on the maximum memory usage, total elapsed time, and CPU time used by your job.
 

@@ -2,7 +2,7 @@
 template: reveal.html
 ---
 
-# Introduction to High Performance Computing with CREATE
+# Introduction to High Performance Computing
 
 ---
 
@@ -10,12 +10,12 @@ template: reveal.html
 
 <small>
 
-This workshop is an introduction to using the CREATE High Performance Computing (HPC) system and is intended to give a basic overview of the tools available and how to use them.
+This workshop is an introduction to using High Performance Computing (HPC) systems and is intended to give a basic overview of the tools available and how to use them.
 
 By the end of the training, you should be able to:
 
-* Connect to CREATE HPC
-* Manage your files and programs on CREATE
+* Connect to HPC
+* Manage your files and programs
 * Use modules to find and load the necessary software
 * Submit jobs to the queue and check the results of submitted jobs
 
@@ -27,32 +27,11 @@ The training material and slides are available online, so you don't need to take
 
 ## Overview
 
-* What is CREATE?
 * What is a high performance computing cluster?
 * Connecting to the HPC cluster
 * Navigating the HPC filesystem
-* Using software on CREATE HPC
+* Using software
 * Submitting jobs to the HPC cluster
-
----
-
-## About CREATE
-
-<small>
-
-King's Computational Research, Engineering and Technology Environment (CREATE) is a tightly integrated ecosystem of research computing infrastructure hosted by King’s College London. It consists of:
-
-* CREATE Cloud: A private cloud platform to provide flexible and scalable hosting environments using virtual machines
-
-* CREATE HPC: A high performance compute cluster with CPU and GPU nodes, fast network interconnects and shared storage, for large scale simulations and data analytics
-
-* CREATE RDS: A very large, highly resilient storage area for longer term curation of research data
-
-* CREATE TRE: Tightly controlled project areas making use of Cloud and HPC resources to process sensitive datasets (e.g. clinical PII)
-
-* CREATE Web: A self-service web hosting platform for static content (HTML/CSS/JS) and WordPress sites
-
-</small>
 
 ---
 
@@ -83,43 +62,16 @@ The cluster uses a job scheduler that is designed to support different types of
 
 ---
 
-## Connecting to CREATE HPC
+## Connecting to HPC
 
 ---
 
-## SSH keys
+## Log in through a Terminal
 
-* SSH keys are used to authenticate users
-* Create an SSH key pair: `ssh-keygen –t rsa`
-* Private key proves your identity - do not share this!
-* Public key is for authorization
-
-* MacOS and Linux devices: `~/.ssh/id_rsa.pub`
-* Windows devices: `C:\Users\k1234567\.ssh\id_rsa.pub`
-
----
-
-## Adding your public key to the e-Research portal
-
-* Go to https://portal.er.kcl.ac.uk/access/ssh
-
-<img src="../images/ssh_key_portal.png" alt="Add SSH keys to portal" height="400">
-
----
-
-## Connecting via SSH
-
-<small>
-
-* Use `ssh` to connect to the HPC login node
-* MacOS/Linux users: `ssh k1234567@hpc.create.kcl.ac.uk`
-* Windows users: `ssh –m hmac-sha2-512 k1234567@hpc.create.kcl.ac.uk`
-* You will be asked to confirm the fingerprint if this is the first time connecting
-* Approve your multifactor authentication request:  https://portal.er.kcl.ac.uk/mfa
-
-</small>
-
-![MFA approval in portal](../images/mfa_approve.png)
+* SSH means "Secure Shell" and is a way of connecting to secure services.
+* You will need to tell it who you are (username) and where you want to connect to (hostname)
+* `ssh -l <username> <hostname>`
+* In the examples we will use "k1234567" as an example username and "hpc.university.ac.uk" as an example hostname.
 
 ---
 
@@ -210,7 +162,7 @@ k1234567@erc-hpc-login2:~$ pwd
 
 ---
 
-## Using software on CREATE HPC
+## Using software on HPC
 
 ---
 
@@ -236,7 +188,7 @@ Centrally managed software can be found through environment modules.
 
 ---
 
-## Submitting jobs on CREATE HPC
+## Submitting jobs on HPC
 
 ---
 
@@ -249,7 +201,4 @@ Centrally managed software can be found through environment modules.
 ## Next steps
 
 * Fill in the training feedback survey!
-* Request continued access to CREATE HPC
-    * Consider requesting an RDS project - this gives up to 5TB backed-up storage
-* Check the documentation: https://docs.er.kcl.ac.uk/
-* Check out the user forum: https://forum.er.kcl.ac.uk/
+* Request continued access to your local HPC

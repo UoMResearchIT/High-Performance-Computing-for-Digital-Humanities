@@ -6,6 +6,8 @@ HPC clusters typically don't provide access to a graphical user interface - all 
 However, there are ways to run software with a graphical user interface on an HPC cluster.
 This allows you to benefit from the resources available on the HPC (multiple cores for parallel jobs, more memory than available on your computer)
 while also having the convenience of a familiar graphical user interface.
+This can be difficult for HPC administrators to manage and can use a lot of resources on the login node, so some HPCs do not allow this, and may block your activity or kill your process while you are working.
+Check local documentation or contact your HPC administration team before trying this.
 
 ## SSH tunneling
 

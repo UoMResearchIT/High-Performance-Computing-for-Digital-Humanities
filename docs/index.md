@@ -42,6 +42,8 @@ Local HPC, run by individual research institutions:
 * University of Manchester Computational Shared Facility ([CSF](https://research-it.manchester.ac.uk/services/the-computational-shared-facility-csf/));
 * King's Computational Research, Engineering and Technology Environment ([CREATE](https://docs.er.kcl.ac.uk/#kings-create)).
 
+See https://www.hpc-uk.ac.uk/facilities/ for a list of UK HPC facilities that accept external users.
+
 
 
 ## Prerequisites

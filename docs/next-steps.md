@@ -1,10 +1,9 @@
 # Next steps
 
-King's staff and students can request access to CREATE HPC as described [here](https://docs.er.kcl.ac.uk/CREATE/requesting_access/).
-
-You may also want to [register a project](https://docs.er.kcl.ac.uk/CREATE/requesting_access/#project-registration).
-This gives you a project-specific scratch space as well as the option to request [backed-up RDS storage](https://docs.er.kcl.ac.uk/research_data/rds/).
-We encourage project registration as it helps us track the research impact of CREATE usage.
+- Find your own institution's HPC and look up their documentation. Do they offer an introductory course similar to this one so you can learn how their setup works?
+- Request an account and see what similarities and differences it has from the system we used in the course.
+- Find a UK, European or global HPC that you can access. What is their process for getting an account? Do they offer a limited free service for learning or testing your application?
+- For a piece of software you use in your research, look at documentation and see if it can be run in parallel.
 
 ## Transferring files
 

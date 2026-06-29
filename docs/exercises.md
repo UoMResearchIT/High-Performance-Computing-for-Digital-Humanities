@@ -5,7 +5,7 @@ This section contains collection of exercises based on the material covered in t
 Sample answers are provided in-line in the expandable boxes, but please try to do exercises by yourself
 before looking at the sample answers. There are also some hints to help you if you are stuck.
 
-Supporting files can be found on CREATE HPC in `/datasets/hpc_training` directory. The
+Supporting files can be found on the HPC in `/datasets/hpc_training` directory. The
 directory also contains example scripts from the exercises for convenience.
 
 !!! info
@@ -253,7 +253,7 @@ directory also contains example scripts from the exercises for convenience.
         * Use `hostname` command to print the hostname of the node
         * Add `sleep` to the jobscript so that it does not terminate too quickly
         * Use `squeue` to check the status of the job
-        * Use `sacct` to get the information about the job when it has finished
+        * Use `squeue -t all` to get the information about the job when it has finished
 
     ??? example "Sample answer"
         Create a sample script `test-job1.sh` and add the following contents to it
@@ -297,7 +297,7 @@ directory also contains example scripts from the exercises for convenience.
         You can check information about completed job using
 
         ```
-        k1234567@erc-hpc-login2:~$ sacct -j 56739
+        k1234567@erc-hpc-login2:~$ squeue --me -t all
                JobID    JobName  Partition    Account  AllocCPUS      State ExitCode
         ------------ ---------- ---------- ---------- ---------- ---------- --------
         56739         test-job1        cpu        kcl          1  COMPLETED      0:0
@@ -336,96 +336,6 @@ directory also contains example scripts from the exercises for convenience.
         1
         ```
 
-1. ### GPU SLURM jobs
-
-    **Goal**: Submit a job requesting gpu(s) on a single node.
-
-    * Write a job script that requests a single gpu and does something that reports the information in its output
-    * Submit a job that requests two gpus and check the output
-
-    ??? hint
-        * Use `nvidia-smi --id=$CUDA_VISIBLE_DEVICES` utility to print the details of allocated gpu(s) for the job
-
-    ??? example "Sample answer"
-        Create a sample script `test-gpu.sh` and add the following contents to it:
-
-        ```
-        #!/bin/bash -l
-
-        #SBATCH --job-name=test-gpu
-        #SBATCH --partition=interruptible_gpu
-        #SBATCH --ntasks=1
-        #SBATCH --cpus-per-task=1
-        #SBATCH --gres gpu:1
-
-        nvidia-smi --id=$CUDA_VISIBLE_DEVICES
-        ```
-
-        Submit the jobs using
-
-        ```
-        k1234567@erc-hpc-login2:~$ sbatch test-gpu.sh
-        Submitted batch job 57425
-        ```
-
-        Analyse the output, which should be located in the `slurm-jobid.out` file (replace `jobid` with the id of your job)
-
-        ```
-        k1234567@erc-hpc-login2:~$ cat slurm-57425.out
-        Tue May 10 09:23:12 2022
-        +-----------------------------------------------------------------------------+
-        | NVIDIA-SMI 510.54       Driver Version: 510.54       CUDA Version: 11.6     |
-        |-------------------------------+----------------------+----------------------+
-        | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-        | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-        |                               |                      |               MIG M. |
-        |===============================+======================+======================|
-        |   1  NVIDIA A100-SXM...  On   | 00000000:31:00.0 Off |                    0 |
-        | N/A   42C    P0    51W / 400W |      0MiB / 40960MiB |      0%      Default |
-        |                               |                      |             Disabled |
-        +-------------------------------+----------------------+----------------------+
-
-        +-----------------------------------------------------------------------------+
-        | Processes:                                                                  |
-        |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
-        |        ID   ID                                                   Usage      |
-        |=============================================================================|
-        |  No running processes found                                                 |
-        +-----------------------------------------------------------------------------+
-        ```
-
-        Next modify `--gres` option to be `--gres gpu:2` and re-submit the job.
-
-        Analyse the output, which should be located in the `slurm-jobid.out` file (replace `jobid` with the id of your job)
-
-        ```
-        k1234567@erc-hpc-login2:~$ cat slurm-57460.out
-        Tue May 10 09:32:21 2022
-        +-----------------------------------------------------------------------------+
-        | NVIDIA-SMI 510.60.02    Driver Version: 510.60.02    CUDA Version: 11.6     |
-        |-------------------------------+----------------------+----------------------+
-        | GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
-        | Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
-        |                               |                      |               MIG M. |
-        |===============================+======================+======================|
-        |   1  NVIDIA A100-SXM...  Off  | 00000000:31:00.0 Off |                    0 |
-        | N/A   35C    P0    55W / 400W |      0MiB / 40960MiB |      0%      Default |
-        |                               |                      |             Disabled |
-        +-------------------------------+----------------------+----------------------+
-        |   2  NVIDIA A100-SXM...  Off  | 00000000:B1:00.0 Off |                    0 |
-        | N/A   34C    P0    55W / 400W |      0MiB / 40960MiB |      0%      Default |
-        |                               |                      |             Disabled |
-        +-------------------------------+----------------------+----------------------+
-
-        +-----------------------------------------------------------------------------+
-        | Processes:                                                                  |
-        |  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
-        |        ID   ID                                                   Usage      |
-        |=============================================================================|
-        |  No running processes found                                                 |
-        +-----------------------------------------------------------------------------+
-        ```
-
 1. ### Debugging SLURM job scripts
 
     **Goal**: Analyse and fix a SLURM batch job script
@@ -455,7 +365,7 @@ directory also contains example scripts from the exercises for convenience.
         and the accounting information
 
         ```
-        k1234567@erc-hpc-login2:~$ sacct -j 56749
+        k1234567@erc-hpc-login2:~$ squeue --me -t all
                JobID    JobName  Partition    Account  AllocCPUS      State ExitCode
         ------------ ---------- ---------- ---------- ---------- ---------- --------
         56749        bad-scrip+        cpu        kcl          1    TIMEOUT      0:0
@@ -479,7 +389,7 @@ directory also contains example scripts from the exercises for convenience.
         and the accouting information should contain
 
         ```
-        k1234567@erc-hpc-login2:~$ sacct -j 56751
+        k1234567@erc-hpc-login2:~$ squeue --me -t all
                JobID    JobName  Partition    Account  AllocCPUS      State ExitCode
         ------------ ---------- ---------- ---------- ---------- ---------- --------
         56751        bad-scrip+        cpu        kcl          1  COMPLETED      0:0
@@ -498,7 +408,7 @@ directory also contains example scripts from the exercises for convenience.
 
     ??? hint
         * Use `nproc` utility to print the number of allocated cpus for the job
-        * Use `sacct` to check the resource allocation after the job has finished
+        * Use `squeue` to check the resource allocation after the job has finished
 
     ??? example "Sample answer"
         Create a sample script `test-multicore.sh` and add the following contents to it:
