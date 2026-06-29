@@ -1002,7 +1002,7 @@ using the <a href="https://slurm.schedmd.com/sbatch.html"><code>sbatch</code></a
 When the scheduler picks our job from the queue, it will run this script.
 There's several ways we could create this script on the cluster, but for short scripts it's often easiest to use a <strong>command line text editor</strong> to create it directly on the cluster.
 For more complex scripts you might prefer to write them on your computer and transfer them across, but it's relatively rare that job submission scripts get that complex.</p>
-<p>One common text editor that you should always have access to on systems like CREATE is <code>nano</code>:</p>
+<p>There are a few terminal-based text editors, such as Vim and Emacs, so you can check what is available on your HPC system and choose which one you are most comfortable using. We will demonstrate one common text editor that you should always have access to on HPC systems - <code>nano</code>:</p>
 <div class="highlight"><pre><span></span><code>nano<span class="w"> </span>test_job.sh
 </code></pre></div>
 <p>Nano is relatively similar to a basic graphical text editor like Notepad on Windows - you have a cursor (controlled by the arrow keys) and text is entered as you type.
@@ -1050,8 +1050,8 @@ k1234567@erc-hpc-comp001:~$
 <p>To exit an interactive job, we use the Bash command <code>exit</code> - this exits the current shell, so if you're inside an interactive job it will exit that, if you're just logged in to one of the login nodes, it will disconnect your SSH session.</p>
 <div class="admonition info">
 <p class="admonition-title">Running applications with Graphical User Interfaces (GUIs)</p>
-<p>To run an interactive job for an application with a Graphical User Interface (GUI), for example RStudio, you must enable 'X11 forwarding' and 'authentication agent forwarding' when you connect to CREATE:</p>
-<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>-XA<span class="w"> </span>hpc.create.kcl.ac.uk
+<p>To run an interactive job for an application with a Graphical User Interface (GUI), for example RStudio, you must enable 'X11 forwarding' and 'authentication agent forwarding' when you connect:</p>
+<div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>-XA<span class="w"> </span>hpc.university.ac.uk
 </code></pre></div>
 <p>Then request compute resources using <code>salloc</code> - once your resources have been allocated you can then connect to the node with a further <code>ssh</code> connection:</p>
 <div class="highlight"><pre><span></span><code>salloc<span class="w"> </span>&lt;parameters&gt;
@@ -1063,8 +1063,7 @@ xeyes
 <p>It is important to be able to see the status of your running jobs, or to find out information
 about completed, or failed jobs.</p>
 <p>To monitor the status of the running jobs use <a href="https://slurm.schedmd.com/squeue.html"><code>squeue</code></a> utility.
-Without any arguments, the command will print queue information for all users, however you can use <code>--me</code> parameter
-to filter the list:</p>
+Without any arguments, the command will print queued and running job information for all users, however you can use <code>--me</code> parameter to filter the list:</p>
 <div class="highlight"><pre><span></span><code>k1234567@login1:~$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
              56544       cpu     bash k1234567  R       6:41      1 erc-hpc-comp001
@@ -1082,7 +1081,10 @@ docs (JOB STATE CODES section).</p>
 <li><code>CD</code>: Completed - Job has terminated all processes on all nodes with an exit code of zero.</li>
 </ul>
 </div>
-<p>For jobs that have finished, you can use <a href="https://slurm.schedmd.com/sacct.html"><code>sacct</code></a> utility to extract the relevant information.</p>
+<p>To see recently completed jobs as well, you need to tell <code>squeue</code> to report all job states using the <code>--states=all</code> flag, or <code>-t</code> for short:</p>
+<div class="highlight"><pre><span></span><code>k1234567@login1:~$<span class="w"> </span>squeue<span class="w"> </span>--me<span class="w"> </span>-t<span class="w"> </span>all
+</code></pre></div>
+<p>This will show you how long your job took to run. For more detailed information on jobs that have finished, you can also use <a href="https://slurm.schedmd.com/sacct.html"><code>sacct</code></a> if this is installed on your HPC system.</p>
 <div class="highlight"><pre><span></span><code>sacct -j 56543
        JobID    JobName  Partition    Account  AllocCPUS      State ExitCode
 ------------ ---------- ---------- ---------- ---------- ---------- --------
@@ -1101,7 +1103,7 @@ you can customise your queries to display the information that you specifically 
 <p>For the list of available options please see the job accounting fields in the <a href="https://slurm.schedmd.com/sacct.html"><code>sacct</code></a> documentation.</p>
 <div class="admonition tip">
 <p class="admonition-title">Check how efficiently your job used its resources</p>
-<p><code>sacct</code> can be used to check how efficiently your job used the resources you requested.
+<p>If available on your system, <code>sacct</code> can be used to check how efficiently your job used the resources you requested.
 For example, you can use the option <code>--format=JobID,JobName,Timelimit,Elapsed,CPUTime,ReqCPUS,NCPUS,ReqMem,MaxRSS</code>
 to get information on the maximum memory usage, total elapsed time, and CPU time used by your job.</p>
 <div class="highlight"><pre><span></span><code>k1234567@erc-hpc-login1:~$<span class="w"> </span>sacct<span class="w"> </span>-j<span class="w"> </span><span class="m">8328</span><span class="w"> </span>--format<span class="o">=</span>JobID,JobName,Timelimit,Elapsed,CPUTime,ReqCPUS,NCPUS,ReqMem,MaxRSS

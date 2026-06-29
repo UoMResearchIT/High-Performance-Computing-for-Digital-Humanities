@@ -895,7 +895,7 @@ This approach will generally use a library such as <code>OpenMP</code> (Open Mul
 This program is available at <code>/datasets/hpc_training/utils/omp_hello</code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Example files</p>
-<p>Most of the example files we use in this section can be found on CREATE at <code>/datasets/hpc_training/</code>.</p>
+<p>Most of the example files we use in this section can be found on the HPC system at <code>/datasets/hpc_training/</code>.</p>
 </div>
 <p>We need to create a shell script that requests appropriate resources to run the program:</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash --login</span>
@@ -968,7 +968,7 @@ Took 1.6164 seconds
 <li>Using <code>numba.prange</code> for our loop instead of the usual <code>range</code> causes it to be executed in parallel across all available threads. Each thread will be given an approximately equal share of the loop iterations to execute.</li>
 <li>In the main block we call the <code>calculate_squares()</code> function and time how long it takes to run.</li>
 </ul>
-<p>To execute the above code on CREATE, we can use <code>submit_squares.sh</code>:</p>
+<p>To execute the above code on our HPC worker nodes, we can use <code>submit_squares.sh</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash --login</span>
 <span class="c1">#SBATCH --job-name=squares_numba</span>
 <span class="c1">#SBATCH --partition=simple</span>

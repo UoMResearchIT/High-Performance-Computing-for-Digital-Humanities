@@ -771,7 +771,9 @@
 <p>HPC clusters typically don't provide access to a graphical user interface - all interactions happen through the terminal.
 However, there are ways to run software with a graphical user interface on an HPC cluster.
 This allows you to benefit from the resources available on the HPC (multiple cores for parallel jobs, more memory than available on your computer)
-while also having the convenience of a familiar graphical user interface.</p>
+while also having the convenience of a familiar graphical user interface.
+This can be difficult for HPC administrators to manage and can use a lot of resources on the login node, so some HPCs do not allow this, and may block your activity or kill your process while you are working.
+Check local documentation or contact your HPC administration team before trying this.</p>
 <h2 id="ssh-tunneling">SSH tunneling<a class="headerlink" href="#ssh-tunneling" title="Permanent link">&para;</a></h2>
 <p>The approach we will use to connect to the Jupyter notebook today is called SSH tunneling (or SSH port forwarding).
 A port, in this context, is a virtual point where network connections between devices start and end.
